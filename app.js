@@ -44,7 +44,8 @@ const FASE_DATA = {
       'Grubleri der stjæler nattesøvnen',
       'En tomhed bag facaden — at gøre alt det rigtige, men føle sig udhulet',
       'Skyldfølelse uanset hvad man gør: aldrig nok'
-    ]
+    ],
+    aarsag: 'Udmattelse er denne fases største fare, og den sker gradvist — som jord der langsomt mister sin frugtbarhed, fordi den aldrig får hvile. I den kinesiske medicin er milten den jord der transformerer alt til næring, men når den overbelastes, kan den ikke længere optage. Bekymring — jordens skyggefølelse — tærer direkte på milten og skaber en ond cirkel: jo mere du bekymrer dig, jo svagere bliver fordøjelsen, jo mere træt bliver du, jo mere bekymrer du dig.\n\nForskning i stress bekræfter, at kvinder i trediverne ofte rapporterer højere stressniveauer end mænd i samme alder, delvist på grund af det usynlige arbejde med at holde styr på hjem og relationer — det mentale load. Jord-elementet bærer dette load i kroppen som oppustethed, tyngde og en træthed der sidder i selve musklerne.\n\nAt lære at modtage er måske det vigtigste i denne fase. Jorden vil give og give, men uden at modtage næring udtørrer den. At bede om hjælp, at acceptere støtte, at lade andre gøre noget for dig er ikke svaghed — det er den visdom, der holder jorden frugtbar.'
   },
 
   temaer: [
