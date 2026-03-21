@@ -261,7 +261,7 @@ function buildDybdeScreen() {
       <div class="dybde-fase-label">Fase ${d.phase} · ${d.elementLabel}</div>
       <div class="isa isa--sm">${d.introText}</div>
       <div class="fig" style="margin-top:var(--sp-4)">
-        <img src="Gemini_Generated_Image_4llrmp4llrmp4llr.png" alt="Dine fem cyklusser" style="max-width:260px">
+        <img src="Gemini_Generated_Image_4llrmp4llrmp4llr.png" alt="Dine fem cyklusser" style="max-width:260px" class="no-bg">
       </div>
     </div>`;
 
@@ -279,7 +279,7 @@ function buildDybdeScreen() {
   html += `
     <div class="section">
       <div class="eyebrow">Din centrale følelse</div>
-      <div class="title-featured">${d.centralFoelelse.title}</div>
+      <div class="isa" style="margin-bottom:var(--sp-2)">${d.centralFoelelse.title}</div>
       ${renderTruncated(d.centralFoelelse.tekst, 5)}
     </div>`;
 
@@ -427,8 +427,8 @@ function buildDybdeScreen() {
   const refl = d.refleksioner[Math.floor(Math.random() * d.refleksioner.length)];
   html += `
     <div class="section">
-      <div class="eyebrow">Refleksion</div>
-      <div class="refleksion-box">
+      <div class="eyebrow eyebrow--center">Refleksion</div>
+      <div class="refleksion-centered">
         <div class="isa">${refl}</div>
       </div>
     </div>`;
@@ -524,7 +524,7 @@ function buildRelationerScreen() {
   // ── HERO ──
   html += `
     <div class="section dybde-hero">
-      <div class="eyebrow" style="color:#88839e">Dine relationer</div>
+      <div class="eyebrow" >Dine relationer</div>
       <div class="dybde-fase-label">Når livsfaser mødes</div>
       <div class="isa isa--sm">Hvert menneske du møder, bærer sin egen rytme. Når jeres energier mødes, sker der noget — noget der nærer, noget der udfordrer, noget der spejler det du selv bærer.</div>
       <div class="fig" style="margin-top:var(--sp-4)">
@@ -535,7 +535,7 @@ function buildRelationerScreen() {
   // ── JERES ELEMENT-DYNAMIK ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#88839e">Dit elements relationer</div>
+      <div class="eyebrow" >Dit elements relationer</div>
       <div class="expand-card">
         <div class="expand-header">
           <span class="expand-header-title">Det du nærer</span>
@@ -588,7 +588,7 @@ function buildRelationerScreen() {
   // ── RELATIONER I DIN FASE ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#88839e">Relationer i din fase</div>
+      <div class="eyebrow" >Relationer i din fase</div>
       ${renderTruncated(d.relationerIFasen, 5)}
     </div>`;
 
@@ -598,8 +598,8 @@ function buildRelationerScreen() {
   // ── SAMTALÅBNER ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#88839e">Samtaleåbner</div>
-      <div class="refleksion-box" style="border-left-color:#88839e">
+      <div class="eyebrow" >Samtaleåbner</div>
+      <div class="refleksion-centered">
         <div class="isa">${samtale}</div>
       </div>
     </div>`;
@@ -610,7 +610,7 @@ function buildRelationerScreen() {
   // ── RÅD TIL JERES RELATION ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#88839e">Råd til jeres relation</div>
+      <div class="eyebrow" >Råd til jeres relation</div>
       <div class="expand-card">
         <div class="expand-header">
           <span class="expand-header-title">For dig</span>
@@ -652,7 +652,7 @@ function buildRelationerScreen() {
   // ── DYK DYBERE ──
   html += `
     <div class="section" style="text-align:center">
-      <div class="eyebrow" style="color:#88839e">Dyk dybere</div>
+      <div class="eyebrow" >Dyk dybere</div>
       <div class="explore-pills">
         <span class="explore-pill" data-link="rel-dybere" style="color:#88839e;border-color:rgba(123,122,158,0.2)">Dine Dybere Relationer →</span>
       </div>
@@ -662,7 +662,7 @@ function buildRelationerScreen() {
   html += `
     <div class="section">
       <div class="fig fig--sm"><img src="relationer_blad.png" alt="" style="max-width:180px;opacity:0.85"></div>
-      <div class="pull-quote" style="border-left-color:#88839e">De mennesker vi vælger at bære med os, er sjældent tilfældige. De bærer det element vi selv mangler — eller det vi har for meget af.</div>
+      <div class="closing-quote">De mennesker vi vælger at bære med os, er sjældent tilfældige. De bærer det element vi selv mangler — eller det vi har for meget af.</div>
     </div>`;
 
   html += `
@@ -715,7 +715,7 @@ function buildRelDybereScreen() {
   // ── HERO ──
   html += `
     <div class="section dybde-hero">
-      <div class="eyebrow" style="color:#88839e">Dine dybere relationer</div>
+      <div class="eyebrow" >Dine dybere relationer</div>
       <div class="dybde-fase-label">Elementerne der mødes</div>
       <div class="isa isa--sm">Når to mennesker mødes, mødes to elementer. Den dynamik — hvad der nærer, hvad der udfordrer, hvad der spejler — er nøglen til at forstå jeres relation på et dybere plan.</div>
       <div class="fig" style="margin-top:var(--sp-4)">
@@ -726,7 +726,7 @@ function buildRelDybereScreen() {
   // ── ELEMENT-DYNAMIKKER ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#88839e">Jord møder de andre elementer</div>
+      <div class="eyebrow" >Jord møder de andre elementer</div>
       ${Object.entries(dynamikker).map(([key, tekst]) => {
         const elNavn = key.split('_')[1];
         const labels = { VAND: 'Vand', TRAE: 'Træ', ILD: 'Ild', METAL: 'Metal', JORD: 'Jord' };
@@ -751,7 +751,7 @@ function buildRelDybereScreen() {
   // ── NÅR FASE 5 MØDER ANDRE FASER ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#88839e">${faseMoeder.titel}</div>
+      <div class="eyebrow" >${faseMoeder.titel}</div>
       ${faseMoeder.tekster.map(t => `
         <div class="expand-card">
           <div class="expand-header">
@@ -773,7 +773,7 @@ function buildRelDybereScreen() {
   // ── JERES CENTRALE FØLELSER ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#88839e">Jeres centrale følelser</div>
+      <div class="eyebrow" >Jeres centrale følelser</div>
       <div class="expand-card">
         <div class="expand-header">
           <span class="expand-header-title">${centraleFoelelser.dig.title}</span>
@@ -804,7 +804,7 @@ function buildRelDybereScreen() {
   // ── ØVELSE SAMMEN ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#88839e">Noget I kan gøre sammen</div>
+      <div class="eyebrow" >Noget I kan gøre sammen</div>
       <div class="expand-card">
         <div class="expand-header">
           <span class="expand-header-title">${parOevelse.title}</span>
@@ -827,8 +827,8 @@ function buildRelDybereScreen() {
   // ── REFLEKSION ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#88839e">Refleksion</div>
-      <div class="refleksion-box" style="border-left-color:#88839e">
+      <div class="eyebrow eyebrow--center">Refleksion</div>
+      <div class="refleksion-centered">
         <div class="isa">Hvem giver dig energi — og hvem kræver den? Det er ikke et spørgsmål om skyld. Det er et spørgsmål om elementernes samspil.</div>
       </div>
     </div>`;
@@ -836,7 +836,7 @@ function buildRelDybereScreen() {
   // ── PULL QUOTE ──
   html += `
     <div class="section">
-      <div class="pull-quote" style="border-left-color:#88839e">Måske undrer du dig over, hvorfor nogle mennesker føles som at komme hjem — mens andre langsomt tømmer dig. Det handler ikke om vilje. Det handler om elementer der mødes.</div>
+      <div class="closing-quote">Måske undrer du dig over, hvorfor nogle mennesker føles som at komme hjem — mens andre langsomt tømmer dig. Det handler ikke om vilje. Det handler om elementer der mødes.</div>
     </div>`;
 
   html += `
@@ -875,18 +875,18 @@ function buildTidsrejseScreen() {
   // ── HERO ──
   html += `
     <div class="section dybde-hero">
-      <div class="eyebrow" style="color:#8B7D9B">Tidsrejse</div>
+      <div class="eyebrow" >Tidsrejse</div>
       <div class="dybde-fase-label">Din rejse gennem tid</div>
       <div class="isa isa--sm">Din krop og sjæl har bevæget sig gennem mange faser. Hvert øjeblik i dit liv bærer sine cyklusser — og de fortæller en historie om hvem du var, hvem du er, og hvem du er ved at blive.</div>
       <div class="fig" style="margin-top:var(--sp-4)">
-        <img src="vinduer-tid-lilla.png" alt="Tidsrejse" style="max-width:260px">
+        <img src="vinduer-tid-lilla.png" alt="Tidsrejse" style="max-width:390px">
       </div>
     </div>`;
 
   // ── DINE FEM CYKLUSSER ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#8B7D9B">Dine fem cyklusser</div>
+      <div class="eyebrow" >Dine fem cyklusser</div>
       ${niCyklusser.map(c => `
         <div class="expand-card">
           <div class="expand-header">
@@ -908,7 +908,7 @@ function buildTidsrejseScreen() {
   // ── ÅRSTIDERNES CYKLUS ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#8B7D9B">Årstidernes cyklus i din fase</div>
+      <div class="eyebrow" >Årstidernes cyklus i din fase</div>
       ${renderTruncated(aarstidsTekst, 5)}
     </div>`;
 
@@ -918,7 +918,7 @@ function buildTidsrejseScreen() {
   // ── DINE ELEMENT-SKIFT ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#8B7D9B">Dine element-skift</div>
+      <div class="eyebrow" >Dine element-skift</div>
       ${renderTruncated(skiftTekst, 5)}
     </div>`;
 
@@ -934,8 +934,8 @@ function buildTidsrejseScreen() {
   // ── REFLEKSION ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#8B7D9B">Refleksion</div>
-      <div class="refleksion-box" style="border-left-color:#8B7D9B">
+      <div class="eyebrow eyebrow--center">Refleksion</div>
+      <div class="refleksion-centered">
         <div class="isa">Hvis du kunne rejse tilbage til dig selv for ti år siden — hvad ville du sige? Og hvad ville hun sige til dig?</div>
       </div>
     </div>`;
@@ -946,7 +946,7 @@ function buildTidsrejseScreen() {
   // ── DYK DYBERE ──
   html += `
     <div class="section" style="text-align:center">
-      <div class="eyebrow" style="color:#8B7D9B">Dyk dybere</div>
+      <div class="eyebrow" >Dyk dybere</div>
       <div class="explore-pills">
         <span class="explore-pill" data-link="tids-dybere" style="color:#8B7D9B;border-color:rgba(139,125,155,0.2)">Din Dybere Tidsrejse →</span>
       </div>
@@ -955,7 +955,7 @@ function buildTidsrejseScreen() {
   // ── PULL QUOTE ──
   html += `
     <div class="section">
-      <div class="pull-quote" style="border-left-color:#8B7D9B">Tiden er ikke en linje. Den er en spiral — og de steder der gør ondt, er de steder der vil forstås.</div>
+      <div class="closing-quote">Tiden er ikke en linje. Den er en spiral — og de steder der gør ondt, er de steder der vil forstås.</div>
     </div>`;
 
   html += `
@@ -998,7 +998,7 @@ function buildTidsDybereScreen() {
   // ── HERO ──
   html += `
     <div class="section dybde-hero">
-      <div class="eyebrow" style="color:#8B7D9B">Din dybere tidsrejse</div>
+      <div class="eyebrow" >Din dybere tidsrejse</div>
       <div class="dybde-fase-label">Rejsen gennem tid</div>
       <div class="isa isa--sm">Se din egen historie gennem de ni fasers linse. Forstå hvad der formede dig, hvad der bærer dig nu, og hvad der venter forude.</div>
       <div class="fig" style="margin-top:var(--sp-4)">
@@ -1009,7 +1009,7 @@ function buildTidsDybereScreen() {
   // ── TID SOM SPIRAL ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#8B7D9B">Tid som spiral</div>
+      <div class="eyebrow" >Tid som spiral</div>
       ${renderTruncated(tidSomSpiral, 5)}
     </div>`;
 
@@ -1019,7 +1019,7 @@ function buildTidsDybereScreen() {
   // ── DIN TIDSLINJE ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#8B7D9B">Din tidslinje — de ni faser</div>
+      <div class="eyebrow" >Din tidslinje — de ni faser</div>
       ${faseTidslinje.map(f => `
         <div class="expand-card">
           <div class="expand-header">
@@ -1041,7 +1041,7 @@ function buildTidsDybereScreen() {
   // ── KROPPEN & SINDET GENNEM TID ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#8B7D9B">Kroppen & sindet gennem tid</div>
+      <div class="eyebrow" >Kroppen & sindet gennem tid</div>
       <div class="expand-card">
         <div class="expand-header">
           <span class="expand-header-title">Kroppen gennem faserne</span>
@@ -1072,7 +1072,7 @@ function buildTidsDybereScreen() {
   // ── OVERGANGEN ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#8B7D9B">Overgangen — dit næste kapitel</div>
+      <div class="eyebrow" >Overgangen — dit næste kapitel</div>
       <div class="expand-card">
         <div class="expand-header">
           <span class="expand-header-title">Fra Jord til Metal (Fase 5 → 6)</span>
@@ -1092,7 +1092,7 @@ function buildTidsDybereScreen() {
   // ── ØVELSE: REJSEN ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#8B7D9B">Øvelse: Rejsen</div>
+      <div class="eyebrow" >Øvelse: Rejsen</div>
       <div class="expand-card">
         <div class="expand-header">
           <span class="expand-header-title">Mød dig selv gennem faserne</span>
@@ -1120,8 +1120,8 @@ function buildTidsDybereScreen() {
   // ── REFLEKSION ──
   html += `
     <div class="section">
-      <div class="eyebrow" style="color:#8B7D9B">Refleksion</div>
-      <div class="refleksion-box" style="border-left-color:#8B7D9B">
+      <div class="eyebrow eyebrow--center">Refleksion</div>
+      <div class="refleksion-centered">
         <div class="isa">Hvilken version af dig selv savner du mest? Og hvad ville hun sige til den kvinde, du er blevet?</div>
       </div>
     </div>`;

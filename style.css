@@ -27,13 +27,13 @@
   --text-secondary: #6B6560;
   --text-muted: #9A938C;
   --text-dim: #B8B0A8;
-  --accent: #C8956B;
-  --accent-light: rgba(200, 149, 107, 0.15);
-  --accent-border: rgba(200, 149, 107, 0.25);
+  --accent: #6C82A9;
+  --accent-light: rgba(108, 130, 169, 0.10);
+  --accent-border: rgba(108, 130, 169, 0.25);
 
   /* Section tones */
-  --tone-jord: #B89B6A;
-  --tone-jord-bg: rgba(184, 155, 106, 0.06);
+  --tone-jord: #6C82A9;
+  --tone-jord-bg: rgba(108, 130, 169, 0.06);
 
   /* Radius system: 3 steps */
   --r-sm: 10px;
@@ -132,8 +132,28 @@ body {
   font-size: 1.05rem;
   color: var(--text-primary);
   letter-spacing: 0.02em;
+  text-align: center;
 }
-.header-title span { color: var(--accent); }
+.header-title span {
+  color: var(--accent);
+  font-size: 1.55rem;
+  font-weight: 400;
+}
+
+/* Header icons */
+.header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--text-muted);
+  transition: color var(--dur) var(--ease);
+}
+.header-icon:hover { color: var(--text-primary); }
+.header-icon svg { width: 22px; height: 22px; }
 
 /* Back button */
 .back-btn {
@@ -156,6 +176,8 @@ body {
 /* When on sub-screen */
 body.sub-screen .back-btn { display: flex; }
 body.sub-screen .header-title { display: none; }
+body.sub-screen .header-hamburger { display: none; }
+body.sub-screen .header-search { display: none; }
 
 /* --- MAIN CONTENT --- */
 .main {
@@ -740,6 +762,36 @@ body.sub-screen .header-title { display: none; }
   transition: color var(--dur) var(--ease);
 }
 .back-to-top a:hover { color: var(--accent); }
+
+/* --- CENTERED LABELS --- */
+.eyebrow--center { text-align: center; }
+
+/* --- CLOSING QUOTE --- */
+.closing-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  text-align: center;
+  margin: var(--sp-4) 0;
+}
+
+/* --- REFLEKSION CENTERED --- */
+.refleksion-centered {
+  background: var(--tone-jord-bg);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  padding: var(--sp-4);
+  text-align: center;
+}
+.refleksion-centered .isa { color: var(--text-secondary); }
+
+/* Hero image: remove white bg */
+.fig img.no-bg {
+  mix-blend-mode: multiply;
+  background: transparent;
+}
 
 /* --- SCREEN TRANSITION --- */
 .screen-enter {
