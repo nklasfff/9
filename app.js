@@ -124,9 +124,9 @@ const Router = {
     const activeNav = document.querySelector(`[data-nav="${screenId}"]`);
     if (activeNav) activeNav.classList.add('active');
 
-    // Toggle back button (show on sub-screens)
-    const isSubScreen = screenId !== 'forside' && screenId !== 'relationer';
-    document.body.classList.toggle('sub-screen', isSubScreen);
+    // Toggle back button (show on sub-screens, not main nav screens)
+    const mainScreens = ['forside', 'dybde', 'tidsrejse', 'relationer'];
+    document.body.classList.toggle('sub-screen', !mainScreens.includes(screenId));
 
     // Re-run scroll reveal for new screen
     setTimeout(() => {
@@ -135,12 +135,8 @@ const Router = {
   },
 
   goBack() {
-    // If on a sub-screen of relationer, go back to relationer
-    if (this.current === 'rel-dybere') {
-      this.navigate('relationer');
-    } else {
-      this.navigate('forside');
-    }
+    const parentMap = { 'rel-dybere': 'relationer', 'tids-dybere': 'tidsrejse' };
+    this.navigate(parentMap[this.current] || 'forside');
   }
 };
 
@@ -840,12 +836,282 @@ function buildRelDybereScreen() {
 
 
 /* ============================================================
-   INIT
+   BUILD TIDSREJSE SCREEN
    ============================================================ */
+function buildTidsrejseScreen() {
+  const d = FASE_DATA;
+  const container = document.getElementById('tidsrejse-content');
+  if (!container) return;
+
+  const niCyklusser = [
+    { navn: 'Livsfase', element: 'Jord', desc: 'Din livslange cyklus. Fase 5 — jord-elementet dominerer fra ca. 28 til 35 år. Ansvar, omsorg og modning.' },
+    { navn: 'Årstid', element: 'Vand', desc: 'Vinteren hører til vand-elementet. Mørket inviterer til indadvendthed og hvile. Nyrerne samler kraft.' },
+    { navn: 'Måned', element: 'Vand', desc: 'Denne måned bærer vandets energi. Dybde og intuition er tilgængelige — lyt til det der melder sig i stilheden.' },
+    { navn: 'Ugedag', element: 'varierer', desc: 'Hver ugedag bærer sit element. Mandag er vand, tirsdag træ, onsdag ild, torsdag jord, fredag metal, lørdag vand, søndag træ.' },
+    { navn: 'Organur', element: 'varierer', desc: 'Hvert organ har sin tid på døgnet. Milten er stærkest kl. 09-11, maven kl. 07-09. At spise varmt om morgenen nærer din jord.' }
+  ];
+
+  const tidSomSpiral = 'Tiden er ikke en linje. Den er en spiral — og de steder der gør ondt, er de steder der vil forstås. Hvert år vender du tilbage til de samme årstider, men du er ikke den samme. Foråret i år er ikke foråret sidste år. Vinteren nu er dybere end vinteren for ti år siden. Spiralen går indad og opad på samme tid.\n\nI den kinesiske medicin tænker man i cyklusser, ikke i fremskridt. Der er ingen destination — kun bevægelse. De fem elementer veksler i en evig dans: vand nærer træ, træ nærer ild, ild nærer jord, jord nærer metal, metal nærer vand. Og du er midt i den dans, med din egen rytme, din egen fase, dine egne skift.';
+
+  const skiftTekst = 'Hvert element-skift er en overgang — en tid hvor den gamle energi langsomt giver plads til den nye. Overgangen fra ild til jord (Fase 4 til 5) mærkes som en bevægelse fra passion og retning mod næring og fundament. Det brændende spørgsmål "hvad vil jeg?" afløses gradvist af "hvad kan bære?".\n\nOvergangen fra jord til metal (Fase 5 til 6) begynder omkring femogtredive. Spørgsmålene handler mindre om at bære og mere om at skelne. Metallets klarhed sorterer i det jordens omsorg har samlet — og den sortering kan være både befriende og smertefuld.';
+
+  const aarstidsTekst = 'Jord-elementet hører til sensommeren — den modne tid mellem sommerens intensitet og efterårets sortering. I sensommeren er der en fylde og en varme, der er anderledes end sommerens — mere stille, mere mættet, tættere på jorden.\n\nI denne fase kan du mærke sensommerens kvaliteter i din egen krop: en tyngde der kan være behagelig og nærende, men også udmattende. Efterårets invitation til at slippe og sortere er vigtig medicin for en jordkvinde der bærer for tungt.\n\nMiltens tid i organuret er kl. 09-11. Om formiddagen er din fordøjelse og din tankeklarhed stærkest — brug den tid til det der kræver koncentration og nærvær. Mavens tid er kl. 07-09, og en varm morgenmad i det tidsrum er måske det bedste, du kan gøre for din jord.';
+
+  let html = '';
+
+  // ── HERO ──
+  html += `
+    <div class="section dybde-hero">
+      <div class="eyebrow" style="color:#8B7D9B">Tidsrejse</div>
+      <div class="dybde-fase-label">Din rejse gennem tid</div>
+      <div class="isa isa--sm">Din krop og sjæl har bevæget sig gennem mange faser. Hvert øjeblik i dit liv bærer sine cyklusser — og de fortæller en historie om hvem du var, hvem du er, og hvem du er ved at blive.</div>
+    </div>`;
+
+  // ── DINE FEM CYKLUSSER ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#8B7D9B">Dine fem cyklusser</div>
+      ${niCyklusser.map(c => `
+        <div class="expand-card">
+          <div class="expand-header">
+            <span class="expand-header-title">${c.navn}${c.element !== 'varierer' ? ' · ' + c.element : ''}</span>
+            <span class="expand-chevron">›</span>
+          </div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <div class="prose"><p>${c.desc}</p></div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── ÅRSTIDERNES CYKLUS ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#8B7D9B">Årstidernes cyklus i din fase</div>
+      ${renderTruncated(aarstidsTekst, 5)}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── DINE ELEMENT-SKIFT ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#8B7D9B">Dine element-skift</div>
+      ${renderTruncated(skiftTekst, 5)}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── REFLEKSION ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#8B7D9B">Refleksion</div>
+      <div class="refleksion-box" style="border-left-color:#8B7D9B">
+        <div class="isa">Hvis du kunne rejse tilbage til dig selv for ti år siden — hvad ville du sige? Og hvad ville hun sige til dig?</div>
+      </div>
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── DYK DYBERE ──
+  html += `
+    <div class="section" style="text-align:center">
+      <div class="eyebrow" style="color:#8B7D9B">Dyk dybere</div>
+      <div class="explore-pills">
+        <span class="explore-pill" data-link="tids-dybere" style="color:#8B7D9B;border-color:rgba(139,125,155,0.2)">Din Dybere Tidsrejse →</span>
+      </div>
+    </div>`;
+
+  // ── PULL QUOTE ──
+  html += `
+    <div class="section">
+      <div class="pull-quote" style="border-left-color:#8B7D9B">Tiden er ikke en linje. Den er en spiral — og de steder der gør ondt, er de steder der vil forstås.</div>
+    </div>`;
+
+  html += `
+    <div class="back-to-top" style="margin-top:var(--sp-6)">
+      <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen ↑</a>
+    </div>`;
+
+  container.innerHTML = html;
+}
+
+
+/* ============================================================
+   BUILD DYBERE TIDSREJSE SCREEN
+   ============================================================ */
+function buildTidsDybereScreen() {
+  const d = FASE_DATA;
+  const container = document.getElementById('tids-dybere-content');
+  if (!container) return;
+
+  const tidSomSpiral = 'Tiden er ikke en linje. Den er en spiral — og de steder der gør ondt, er de steder der vil forstås. Hvert år vender du tilbage til de samme årstider, men du er ikke den samme. Foråret i år er ikke foråret sidste år. Vinteren nu er dybere end vinteren for ti år siden.\n\nI den kinesiske medicin tænker man i cyklusser, ikke i fremskridt. Der er ingen destination — kun bevægelse. De fem elementer veksler i en evig dans: vand nærer træ, træ nærer ild, ild nærer jord, jord nærer metal, metal nærer vand. Og du er midt i den dans, med din egen rytme, din egen fase, dine egne skift.\n\nDet er derfor vi kan tale om livsfaser og årstider i samme åndedræt. De følger den samme logik — den samme spiral af vækst, blomstring, modning, sortering og hvile. Forskellen er bare tempoet: årstiderne drejer på et år, livsfaserne på et liv.';
+
+  const faseTidslinje = [
+    { fase: 'Fase 1 · Vand (0-7 år)', tekst: 'Den spæde begyndelse. Barnet lever i ren sansning, uden filtre. Alt spirer og vokser — tillid, berøring, lyd. Her lægges grundstenen for alt det, der kommer. Nyrerne og vand-elementet dominerer: dybde, essens, grundlæggende livskraft.' },
+    { fase: 'Fase 2 · Træ (7-14 år)', tekst: 'Udforskning og leg. Barnet bryder ud af den trygge base og opdager verden. Leveren og træ-elementet giver retning og nysgerrighed. Kreativiteten blomstrer, og de første venskaber får dybde.' },
+    { fase: 'Fase 3 · Ild (14-21 år)', tekst: 'Forvandlingens ild. Teenagerens krop og sind gennemgår den mest dramatiske forandring siden spædbarnsalderen. Hjertet og ild-elementet bringer passion, identitetssøgen og de første dybe forbindelser.' },
+    { fase: 'Fase 4 · Jord (21-28 år)', tekst: 'Den unge voksne bygger fundament. Karriere, relationer, identitet — alt tager form. Milten og jord-elementet giver evnen til at nære drømme og gøre dem til virkelighed.' },
+    { fase: 'Fase 5 · Jord (28-35 år)', tekst: 'Du er her nu. Ansvar for karriere, måske børn, måske parforhold. Energien er centrerende og bærende — men jorden har også brug for næring. Milten arbejder på overarbejde.' },
+    { fase: 'Fase 6 · Metal (35-42 år)', tekst: 'Den første sortering. Metallets klarhed begynder at skelne mellem det essentielle og det overflødige. Lungerne og tyktarmen renser — fysisk og mentalt.' },
+    { fase: 'Fase 7 · Metal (42-49 år)', tekst: 'Overgangsalderen og den dybe sortering. Alt det der ikke længere tjener dig, falder væk. Der er sorg i det — men også en befrielse der kan overraske.' },
+    { fase: 'Fase 8 · Vand (49-56 år)', tekst: 'Dybdens tid. Vandet vender tilbage. Efter metallets sortering synker kvinden ned i en ny stilhed — ikke tomhedens, men dybdens. Noget husker dette element fra livets allerførste år.' },
+    { fase: 'Fase 9 · Træ (56+ år)', tekst: 'Det nye forår. Træet spirer igen — men nu med rødder der rækker helt ned til grundvandet. En ny vækst begynder, båret af al den erfaring der er samlet.' }
+  ];
+
+  const kropGennemTid = 'I Fase 5 bærer kroppen bogstaveligt. Musklerne og bindevævet — jord-elementets kropsvæv — holder det hele sammen: børn på hoften, tasker på skulderen, ansvar på ryggen. Fordøjelsen arbejder på overarbejde, og milten transformerer alt til næring.\n\nSammenlign med kroppen i Fase 3 (ild): ren energi, hurtig forbrænding, en krop der kunne alt. Eller med kroppen i Fase 8 (vand): langsommere, dybere, med en visdom der sidder i knoglerne. Din krop nu er midt imellem — stærk nok til at bære, men klog nok til at vide, at den ikke kan bære alt.';
+
+  const sindGennemTid = 'Sindet i Fase 5 jonglerer mange bolde. Karriere, børn, parforhold, identitet — alt kræver opmærksomhed. Bekymring er jord-elementets skyggefølelse, og den kan køre i ring som en mølle der aldrig standser.\n\nI Fase 3 var sindet rettet udad — mod verden, mod muligheder, mod den man ville blive. I Fase 8 vender sindet indad — mod dybde, visdom, det essentielle. Dit sind nu er i krydsfeltet: udadvendt nok til at handle, indadvendt nok til at tvivle. Den dobbelthed er ikke en fejl — den er jordens natur.';
+
+  let html = '';
+
+  // ── HERO ──
+  html += `
+    <div class="section dybde-hero">
+      <div class="eyebrow" style="color:#8B7D9B">Din dybere tidsrejse</div>
+      <div class="dybde-fase-label">Rejsen gennem tid</div>
+      <div class="isa isa--sm">Se din egen historie gennem de ni fasers linse. Forstå hvad der formede dig, hvad der bærer dig nu, og hvad der venter forude.</div>
+    </div>`;
+
+  // ── TID SOM SPIRAL ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#8B7D9B">Tid som spiral</div>
+      ${renderTruncated(tidSomSpiral, 5)}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── DIN TIDSLINJE ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#8B7D9B">Din tidslinje — de ni faser</div>
+      ${faseTidslinje.map(f => `
+        <div class="expand-card">
+          <div class="expand-header">
+            <span class="expand-header-title">${f.fase}</span>
+            <span class="expand-chevron">›</span>
+          </div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <div class="prose"><p>${f.tekst}</p></div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── KROPPEN & SINDET GENNEM TID ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#8B7D9B">Kroppen & sindet gennem tid</div>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Kroppen gennem faserne</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose">${textToHtml(kropGennemTid)}</div>
+          </div>
+        </div>
+      </div>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Sindet gennem faserne</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose">${textToHtml(sindGennemTid)}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── OVERGANGEN ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#8B7D9B">Overgangen — dit næste kapitel</div>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Fra Jord til Metal (Fase 5 → 6)</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose"><p>${d.overgangTekst}</p><p>Metallets klarhed vil sortere i alt det, jordens omsorg har samlet. Den sortering kan være befriende — men den begynder med at se klart på det der er, og det kræver mod.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── ØVELSE: REJSEN ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#8B7D9B">Øvelse: Rejsen</div>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Mød dig selv gennem faserne</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose">
+              <p>Sæt dig et stille sted. Luk øjnene. Forestil dig dig selv som barn — i Fase 1, i ren sansning. Hvad ser du? Hvad mærker du? Giv hende et øjeblik.</p>
+              <p>Flyt nu til teenageren — Fase 3, fuld af ild. Hvad brændte hun for? Hvad var hun bange for? Giv hende et øjeblik.</p>
+              <p>Og nu den unge kvinde — Fase 4, fuld af drømme og planer. Hvad byggede hun? Hvad håbede hun? Giv hende et øjeblik.</p>
+              <p>Og endelig — dig selv, nu. Fase 5. Jorden. Hvad bærer du? Hvad har du brug for? Og hvad ville alle de tidligere versioner af dig sige, hvis de kunne se dig nu?</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  // ── REFLEKSION ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#8B7D9B">Refleksion</div>
+      <div class="refleksion-box" style="border-left-color:#8B7D9B">
+        <div class="isa">Hvilken version af dig selv savner du mest? Og hvad ville hun sige til den kvinde, du er blevet?</div>
+      </div>
+    </div>`;
+
+  html += `
+    <div class="back-to-top" style="margin-top:var(--sp-6)">
+      <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen ↑</a>
+    </div>`;
+
+  container.innerHTML = html;
+}
+
+
+/* ============================================================
+   INIT
 document.addEventListener('DOMContentLoaded', () => {
   buildDybdeScreen();
   buildRelationerScreen();
   buildRelDybereScreen();
+  buildTidsrejseScreen();
+  buildTidsDybereScreen();
   initHeaderScroll();
   initInteractions();
   initScrollReveal();
