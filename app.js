@@ -1106,6 +1106,7 @@ function buildTidsDybereScreen() {
 
 /* ============================================================
    INIT
+   ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
   buildDybdeScreen();
   buildRelationerScreen();
