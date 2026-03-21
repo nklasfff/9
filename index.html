@@ -4,318 +4,227 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="theme-color" content="#FDFCFA">
   <title>De 9 Livsfasers Energi</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ═══ AMBIENT BACKGROUND ═══ -->
-  <div class="ambient" aria-hidden="true">
-    <div class="ambient__orb ambient__orb--1"></div>
-    <div class="ambient__orb ambient__orb--2"></div>
-    <div class="ambient__orb ambient__orb--3"></div>
-    <div class="ambient__grain"></div>
-  </div>
+  <!-- AMBIENT BACKGROUND -->
+  <div class="ambient-orb ambient-orb--1"></div>
+  <div class="ambient-orb ambient-orb--2"></div>
+  <div class="ambient-orb ambient-orb--3"></div>
+  <svg class="grain" xmlns="http://www.w3.org/2000/svg"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#grain)"/></svg>
 
-  <!-- ═══ HEADER ═══ -->
-  <header class="app-header" id="appHeader">
-    <button class="app-header__menu" aria-label="Menu">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
-    </button>
-    <div class="app-header__title">De <span>9</span> Livsfaser</div>
-    <button class="app-header__search" aria-label="Søg">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
-    </button>
-    <div class="app-header__accent"></div>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <button class="back-btn" onclick="Router.goBack()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Tilbage
+      </button>
+      <div class="header-title">De <span>9</span> Livsfaser</div>
+      <div style="width:24px"></div>
+    </div>
   </header>
 
-  <!-- ═══ MAIN CONTENT ═══ -->
-  <main>
+  <!-- MAIN CONTENT -->
+  <div class="main">
 
-    <!-- ── HERO ── -->
-    <div class="content">
-      <section class="hero reveal">
-        <p class="hero__eyebrow">I dag &middot; God eftermiddag</p>
-        <div class="hero__symbol">&#27700;</div>
-        <h1 class="hero__title">Vand</h1>
-        <p class="hero__qualities">stilhed &middot; dybde &middot; intuition</p>
-      </section>
-    </div>
+    <!-- ============================================================
+         SCREEN: FORSIDE
+         ============================================================ -->
+    <div id="screen-forside" class="screen active">
 
-    <!-- ── HERO ILLUSTRATION ── -->
-    <div class="content">
-      <div class="illo reveal">
-        <img src="assets/images/hero-cyklusser.png" alt="Dine fem cyklusser">
+      <!-- HERO -->
+      <div class="section hero">
+        <div class="hero-symbol">土</div>
+        <div class="hero-name">Jord</div>
+        <div class="hero-qualities">næring · centrering · omsorg</div>
       </div>
-    </div>
 
-    <!-- ── ISABELLES STEMME ── -->
-    <div class="content">
-      <section class="section--compact reveal">
-        <p class="isa">Dine fem cyklusser samler sig i dag. Mærk efter — din krop ved allerede, hvad den har brug for.</p>
-      </section>
-    </div>
-
-    <!-- ── DIVIDER ── -->
-    <div class="content">
-      <div class="divider reveal">
-        <div class="divider__line"></div>
+      <!-- ILLUSTRATION -->
+      <div class="section">
+        <div class="fig fig--lg">
+          <img src="Gemini_Generated_Image_4llrmp4llrmp4llr.png" alt="Dine fem cyklusser">
+        </div>
       </div>
-    </div>
 
-    <!-- ── DIT ORGANUR ── -->
-    <div class="content">
-      <section class="section--compact reveal">
-        <p class="eyebrow">Dit organur lige nu</p>
+      <!-- ISA VOICE -->
+      <div class="section">
+        <div class="isa isa--sm isa--muted" style="text-align:center">
+          Dine fem cyklusser samler sig i dag. Mærk efter — din krop ved allerede, hvad den har brug for.
+        </div>
+      </div>
+
+      <!-- DIVIDER -->
+      <div class="section"><div class="divider"></div></div>
+
+      <!-- DIN DAGLIGE LÆSNING -->
+      <div class="section" data-link="dybde" style="cursor:pointer">
+        <div class="eyebrow">Dit dybe billede</div>
+        <div class="isa isa--sm">
+          I denne fase er du jorden — det stabile centrum der holder det hele sammen. Mærk efter: hvad har din jord brug for i dag?
+        </div>
+        <div class="link-center">
+          <span class="link-subtle">Udforsk dit dybe billede →</span>
+        </div>
+      </div>
+
+      <!-- ORGANUR -->
+      <div class="section">
+        <div class="eyebrow">Dit organur lige nu</div>
+        <div class="card card--jord">
+          <div class="meta">Milt · kl. 09-11</div>
+          <div class="isa isa--sm" style="margin-top:var(--sp-1)">Om formiddagen er din fordøjelse og din tankeklarhed stærkest — brug den tid til det der kræver koncentration og nærvær.</div>
+        </div>
+      </div>
+
+      <!-- ILLUSTRATION -->
+      <div class="section">
+        <div class="fig fig--sm">
+          <img src="stroemmenes_v3.png" alt="Strømmene">
+        </div>
+      </div>
+
+      <!-- DIN HANDLING -->
+      <div class="section">
+        <div class="eyebrow">Din handling lige nu</div>
         <div class="card card--accent">
-          <p class="card__eyebrow">Kl. 15–17 &middot; Blæren</p>
-          <h3 class="card__title">Vandets tid — renselse og refleksion</h3>
-          <p class="card__text">Blærens energi er aktiv nu. Det er tiden til at lade kroppen rense og finde stilhed. Drik vand, sænk tempoet, og mærk hvad der vil slippe.</p>
-          <div class="card__arrow">&rarr;</div>
+          <div class="meta">Yin Yoga</div>
+          <div class="card-title">Sphinx</div>
+          <div class="card-desc">Åbner maven og miltmeridianen. En blid position der støtter fordøjelsen og giver jorden lov til at hvile.</div>
         </div>
-      </section>
-    </div>
-
-    <!-- ── ÅRSTID & LIVSFASE ── -->
-    <div class="content">
-      <section class="section--compact reveal">
-        <p class="isa">Foråret vækker Træets energi i dig — vækst, retning og nyt mod. Dit Vand-element møder denne kraft med stilhed og lydhørhed.</p>
-      </section>
-    </div>
-
-    <!-- ── DIVIDER: LOTUS ── -->
-    <div class="content">
-      <div class="divider--lotus reveal">
-        <img src="assets/images/lotus-divider.png" alt="">
       </div>
-    </div>
 
-    <!-- ── DIN HANDLING ── -->
-    <div class="content">
-      <section class="section reveal">
-        <p class="eyebrow">Din handling lige nu</p>
+      <!-- DIVIDER -->
+      <div class="section"><div class="divider--subtle"></div></div>
 
-        <div class="illo illo--small">
-          <img src="assets/images/stroemmene.png" alt="Strømmene">
-        </div>
+      <!-- TEMAER -->
+      <div class="section">
+        <div class="eyebrow">Temaer for din fase</div>
 
-        <div style="text-align: center;">
-          <p class="meta" style="margin-bottom: var(--space-xs);">YIN YOGA</p>
-          <h3 class="section-title" style="margin-bottom: var(--space-sm);">Nyrestrømmen</h3>
-          <p class="isa">En blid yin-stilling der åbner nyrernes meridian og støtter Vandets kvaliteter: ro, dybde og indre lytten.</p>
-          <div class="link-center">
-            <a class="isa-link">Se flere øvelser &rarr;</a>
+        <div class="expand-card">
+          <div class="expand-header">
+            <span class="expand-header-title">Moderskab</span>
+            <span class="expand-chevron">›</span>
           </div>
-        </div>
-      </section>
-    </div>
-
-    <!-- ── DIVIDER ── -->
-    <div class="content">
-      <div class="divider reveal">
-        <div class="divider__line"></div>
-      </div>
-    </div>
-
-    <!-- ── TEMAER ── -->
-    <div class="content">
-      <section class="section--compact reveal">
-        <p class="eyebrow">Temaer i dit element</p>
-
-        <div class="expand-card" onclick="this.classList.toggle('open')">
-          <div class="expand-card__header">
-            <span class="expand-card__title">Frygt og visdom</span>
-            <span class="expand-card__chevron">&#8250;</span>
-          </div>
-          <div class="expand-card__body">
-            <div class="expand-card__inner">
-              <p>Vandets skyggeside er frygt — den dybe, eksistentielle frygt, der kan lamme os. Men bag frygten gemmer sig visdom. Når du tør mærke frygten uden at flygte, åbner den for en dyb intuition og indre ro, der er Vandets sande gave.</p>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <div class="prose">
+                <p>For mange kvinder er denne fase forbundet med moderskabet. Børnene er ofte små og krævende, og selv den mest ønskede baby forandrer livet på måder, man ikke kunne forestille sig.</p>
+                <p>Jord-elementets fælde er at miste sig selv i omsorgen for andre. Den tomme kande. Den udpinte mark.</p>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="expand-card" onclick="this.classList.toggle('open')">
-          <div class="expand-card__header">
-            <span class="expand-card__title">Viljestyrke og udholdenhed</span>
-            <span class="expand-card__chevron">&#8250;</span>
+        <div class="expand-card">
+          <div class="expand-header">
+            <span class="expand-header-title">Karriereintensitet</span>
+            <span class="expand-chevron">›</span>
           </div>
-          <div class="expand-card__body">
-            <div class="expand-card__inner">
-              <p>Nyrerne rummer din livskraft — din vilje til at fortsætte, selv når vejen er lang. Vand finder altid vej, uanset forhindringer. Det siver, strømmer, og skærer sig gennem klipper over tid. Denne kvalitet lever i dig.</p>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <div class="prose">
+                <p>Denne fase er ofte præget af karriereintensitet. De afgørende forfremmelser, de vigtige projekter. Jord-elementet viser sig som evnen til at skabe stabilitet — men også som en tendens til at påtage sig for meget.</p>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="expand-card" onclick="this.classList.toggle('open')">
-          <div class="expand-card__header">
-            <span class="expand-card__title">Hvile og genopladning</span>
-            <span class="expand-card__chevron">&#8250;</span>
-          </div>
-          <div class="expand-card__body">
-            <div class="expand-card__inner">
-              <p>Vand er stilhed. Det er vinteren, natten, den dybe søvn. Din krop beder dig om at hvile — ikke som dovenskab, men som den mest kraftfulde form for genopladning. Hvile er ikke fravær af handling. Det er handling i sin mest koncentrerede form.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <!-- ── DIVIDER ── -->
-    <div class="content">
-      <div class="divider reveal">
-        <div class="divider__line"></div>
       </div>
-    </div>
 
-    <!-- ── DIG OG DIN RELATION ── -->
-    <div class="content">
-      <section class="section--compact reveal">
-        <p class="eyebrow">Dig og din relation</p>
+      <!-- DIVIDER -->
+      <div class="section"><div class="divider"></div></div>
 
-        <div class="illo illo--small">
-          <img src="assets/images/relationer.png" alt="Relationer">
-        </div>
-
-        <div class="featured featured--lilla">
-          <p class="featured__eyebrow">Jeres energi i dag</p>
-          <p class="featured__title">Dit Vand møder Ildens intensitet med stilhed og dybde — en balance mellem kraft og ro.</p>
-          <p class="featured__text">I dag kan I finde styrke i kontrasten. Lad Ilden inspirere, og lad Vandet berolige.</p>
-        </div>
-      </section>
-    </div>
-
-    <!-- ── DIVIDER: LOTUS ── -->
-    <div class="content">
-      <div class="divider--lotus reveal">
-        <img src="assets/images/lotus-divider.png" alt="">
-      </div>
-    </div>
-
-    <!-- ── MÆRK EFTER ── -->
-    <div class="content">
-      <section class="section reveal">
-        <p class="eyebrow">Mærk efter</p>
-
-        <div class="checkin">
-          <p class="checkin__question">Hvordan mærker du dig selv lige nu?</p>
-          <p class="checkin__hint">Vælg det der passer bedst</p>
-          <div class="checkin__moods">
-            <button class="mood-btn" onclick="this.classList.toggle('active')">
-              <svg class="mood-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2-3 4-4 6-1s4 2 6-1 4-2 6 1"/><path d="M2 17c2-3 4-4 6-1s4 2 6-1 4-2 6 1" opacity="0.4"/></svg>
-              Stille
-            </button>
-            <button class="mood-btn" onclick="this.classList.toggle('active')">
-              <svg class="mood-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V10"/><path d="M9 14c-2-1-3-3-2-5"/><path d="M15 14c2-1 3-3 2-5"/><path d="M12 10c0-3 2-6 5-8"/><path d="M12 10c0-3-2-6-5-8" opacity="0.5"/></svg>
-              Voksende
-            </button>
-            <button class="mood-btn" onclick="this.classList.toggle('active')">
-              <svg class="mood-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c-4 0-6-3-6-7 0-5 6-12 6-12s6 7 6 12c0 4-2 7-6 7z"/><path d="M12 22v-8" opacity="0.4"/></svg>
-              Intens
-            </button>
-            <button class="mood-btn" onclick="this.classList.toggle('active')">
-              <svg class="mood-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="4"/><path d="M12 14v4"/><path d="M8 22c0-2.2 1.8-4 4-4s4 1.8 4 4" opacity="0.5"/></svg>
-              Rodfæstet
-            </button>
-            <button class="mood-btn" onclick="this.classList.toggle('active')">
-              <svg class="mood-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/></svg>
-              Klar
-            </button>
-            <button class="mood-btn" onclick="this.classList.toggle('active')">
-              <svg class="mood-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c0 0-2 4-2 8s2 6 2 10"/><path d="M10 17c-1 2-2 3-4 3" opacity="0.4"/><path d="M14 17c1 2 2 3 4 3" opacity="0.4"/></svg>
-              Tung
-            </button>
-            <button class="mood-btn" onclick="this.classList.toggle('active')">
-              <svg class="mood-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14c0 0 2-2 4-2s4 2 4 2"/><path d="M12 3v5"/><path d="M7 6c2 1 3 2 5 2s3-1 5-2" opacity="0.5"/></svg>
-              Sårbar
-            </button>
+      <!-- MÆRK EFTER -->
+      <div class="section">
+        <div class="eyebrow">Mærk efter</div>
+        <div class="checkin-grid">
+          <div class="checkin-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2-3 4-4 6-1s4 2 6-1 4-2 6 1"/><path d="M2 17c2-3 4-4 6-1s4 2 6-1 4-2 6 1" opacity="0.4"/></svg>
+            <span class="checkin-label">Stille</span>
+          </div>
+          <div class="checkin-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V10"/><path d="M9 14c-2-1-3-3-2-5"/><path d="M15 14c2-1 3-3 2-5"/><path d="M12 10c0-3 2-6 5-8"/><path d="M12 10c0-3-2-6-5-8" opacity="0.5"/></svg>
+            <span class="checkin-label">Voksende</span>
+          </div>
+          <div class="checkin-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c-4 0-6-3-6-7 0-5 6-12 6-12s6 7 6 12c0 4-2 7-6 7z"/><path d="M12 22v-8" opacity="0.4"/></svg>
+            <span class="checkin-label">Intens</span>
+          </div>
+          <div class="checkin-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="4"/><path d="M12 14v4"/><path d="M8 22c0-2.2 1.8-4 4-4s4 1.8 4 4" opacity="0.5"/></svg>
+            <span class="checkin-label">Rodfæstet</span>
+          </div>
+          <div class="checkin-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/></svg>
+            <span class="checkin-label">Klar</span>
           </div>
         </div>
-      </section>
-    </div>
-
-    <!-- ── DIVIDER ── -->
-    <div class="content">
-      <div class="divider reveal">
-        <div class="divider__line"></div>
       </div>
-    </div>
 
-    <!-- ── REFLEKSION ── -->
-    <div class="content">
-      <section class="section--compact reveal">
-        <p class="eyebrow">Refleksion</p>
-
-        <div class="refleksion">
-          <p class="refleksion__text">Hvad ville dit liv se ud, hvis du turde hvile lige så dybt, som du arbejder?</p>
-          <div class="link-center">
-            <a class="isa-link">Skriv i din journal &rarr;</a>
-          </div>
+      <!-- REFLEKSION -->
+      <div class="section">
+        <div class="eyebrow">Refleksion</div>
+        <div class="refleksion-box">
+          <div class="isa">Hvornår nærede du sidst dig selv med samme omsorg, som du giver andre?</div>
         </div>
-      </section>
-    </div>
-
-    <!-- ── DIVIDER: LOTUS ── -->
-    <div class="content">
-      <div class="divider--lotus reveal">
-        <img src="assets/images/lotus-divider.png" alt="">
-      </div>
-    </div>
-
-    <!-- ── DYK DYBERE ── -->
-    <div class="content">
-      <section class="section reveal">
-        <p class="eyebrow">Dyk dybere</p>
-
-        <div class="explore">
-          <a class="explore__link">Dit Dybe Billede</a>
-          <a class="explore__link">De Ni Faser</a>
-          <a class="explore__link">Din Dybere Praksis</a>
-          <a class="explore__link">Min Rejse</a>
+        <div class="link-center">
+          <span class="link-subtle">Skriv i din journal →</span>
         </div>
-      </section>
+      </div>
+
+      <!-- DIVIDER -->
+      <div class="section"><div class="divider--subtle"></div></div>
+
+      <!-- DYK DYBERE -->
+      <div class="section" style="text-align:center">
+        <div class="eyebrow">Dyk dybere</div>
+        <div class="explore-pills">
+          <span class="explore-pill" data-link="dybde">Dit Dybe Billede →</span>
+          <span class="explore-pill">De Ni Faser →</span>
+          <span class="explore-pill">Din Praksis →</span>
+          <span class="explore-pill">Min Rejse →</span>
+        </div>
+      </div>
+
+      <div style="height:var(--sp-5)"></div>
+
     </div>
 
-    <!-- ── PULL QUOTE ── -->
-    <div class="content">
-      <div class="pull-quote reveal">
-        <p class="pull-quote__text">"Vandet kender vejen — det behøver ikke et kort."</p>
+    <!-- ============================================================
+         SCREEN: DIT DYBE BILLEDE
+         ============================================================ -->
+    <div id="screen-dybde" class="screen">
+      <div id="dybde-content">
+        <!-- Built dynamically by app.js -->
       </div>
     </div>
 
-    <!-- ── FOOTER ── -->
-    <footer class="app-footer reveal">
-      <img src="IMG_1752.png" alt="Lotus" class="app-footer__logo">
-      <p class="app-footer__title">De 9 Livsfasers Energi</p>
-      <p class="app-footer__sub">Baseret på Isabelle Møllers arbejde</p>
-    </footer>
+  </div>
 
-  </main>
-
-  <!-- ═══ BOTTOM TAB BAR ═══ -->
-  <nav class="tab-bar">
-    <button class="tab-btn active">
-      <svg class="tab-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5" fill="currentColor" stroke="none"/></svg>
-      <span class="tab-btn__label">Lige nu</span>
-    </button>
-    <button class="tab-btn">
-      <svg class="tab-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.5 3.1-5 7-5 1.2 0 2.3.15 3.2.45M17 20c0-2.5-1.8-3.8-4-4.5M17 14.5c2.5.5 4 2 4 4"/></svg>
-      <span class="tab-btn__label">Relationer</span>
-    </button>
-    <button class="tab-btn">
-      <svg class="tab-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2.1"/></svg>
-      <span class="tab-btn__label">Tidsrejse</span>
-    </button>
-    <button class="tab-btn">
-      <svg class="tab-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3L3 8l9 4.5L21 8z"/><path d="M3 12l9 4.5L21 12"/><path d="M3 16l9 4.5L21 16"/></svg>
-      <span class="tab-btn__label">Vinduer</span>
-    </button>
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <div class="nav-item active" data-nav="forside">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83" opacity="0.5"/></svg>
+        <span class="nav-label">Lige Nu</span>
+      </div>
+      <div class="nav-item" data-nav="dybde">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5" opacity="0.5"/><circle cx="12" cy="12" r="1.5"/></svg>
+        <span class="nav-label">Dit Billede</span>
+      </div>
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/><path d="M12 6v6l4 2" opacity="0.5"/></svg>
+        <span class="nav-label">Tidsrejse</span>
+      </div>
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z" opacity="0.6"/></svg>
+        <span class="nav-label">Relationer</span>
+      </div>
+    </div>
   </nav>
 
-  <script src="js/app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
