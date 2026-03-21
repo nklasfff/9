@@ -315,34 +315,52 @@ function buildDybdeScreen() {
   // Divider
   html += '<div class="section"><div class="divider"></div></div>';
 
-  // 5. Balance
+  // 5. Balance (foldbar)
   html += `
     <div class="section">
-      <div class="eyebrow">Tegn på balance</div>
-      ${renderTruncated(d.balanceTekst, 4)}
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Tegn på balance</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose">${textToHtml(d.balanceTekst)}</div>
+          </div>
+        </div>
+      </div>
     </div>`;
 
-  // 6. Ubalance
+  // 6. Ubalance (foldbar)
   html += `
     <div class="section">
-      <div class="eyebrow">Tegn på ubalance</div>
-      <div class="ubalance-group">
-        <div class="ubalance-group-label">Fysiske tegn</div>
-        <ul class="ubalance-list">
-          ${d.ubalanceTegn.fysiske.map(t => `<li>${t}</li>`).join('')}
-        </ul>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Tegn på ubalance</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="ubalance-group">
+              <div class="ubalance-group-label">Fysiske tegn</div>
+              <ul class="ubalance-list">
+                ${d.ubalanceTegn.fysiske.map(t => `<li>${t}</li>`).join('')}
+              </ul>
+            </div>
+            <div class="ubalance-group">
+              <div class="ubalance-group-label">Mentale tegn</div>
+              <ul class="ubalance-list">
+                ${d.ubalanceTegn.mentale.map(t => `<li>${t}</li>`).join('')}
+              </ul>
+            </div>
+            ${d.ubalanceTegn.aarsag ? `
+            <div class="ubalance-group" style="margin-top:var(--sp-4)">
+              <div class="ubalance-group-label">Årsager</div>
+              <div class="prose">${textToHtml(d.ubalanceTegn.aarsag)}</div>
+            </div>` : ''}
+          </div>
+        </div>
       </div>
-      <div class="ubalance-group">
-        <div class="ubalance-group-label">Mentale tegn</div>
-        <ul class="ubalance-list">
-          ${d.ubalanceTegn.mentale.map(t => `<li>${t}</li>`).join('')}
-        </ul>
-      </div>
-      ${d.ubalanceTegn.aarsag ? `
-      <div class="ubalance-group" style="margin-top:var(--sp-4)">
-        <div class="ubalance-group-label">Årsager</div>
-        <div class="prose">${textToHtml(d.ubalanceTegn.aarsag)}</div>
-      </div>` : ''}
     </div>`;
 
   // Divider
@@ -402,11 +420,20 @@ function buildDybdeScreen() {
   // Dots
   html += '<div class="section"><div class="dots">· · ·</div></div>';
 
-  // 10. Fasens råd
+  // 10. Fasens råd (foldbar)
   html += `
     <div class="section">
-      <div class="eyebrow">Fasens råd</div>
-      ${d.fasensRaad.map(r => `<div class="raad-item">${r}</div>`).join('')}
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Fasens råd</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            ${d.fasensRaad.map(r => `<div class="raad-item">${r}</div>`).join('')}
+          </div>
+        </div>
+      </div>
     </div>`;
 
   // Divider
