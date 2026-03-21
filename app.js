@@ -124,8 +124,9 @@ const Router = {
     const activeNav = document.querySelector(`[data-nav="${screenId}"]`);
     if (activeNav) activeNav.classList.add('active');
 
-    // Toggle back button
-    document.body.classList.toggle('sub-screen', screenId !== 'forside');
+    // Toggle back button (show on sub-screens)
+    const isSubScreen = screenId !== 'forside' && screenId !== 'relationer';
+    document.body.classList.toggle('sub-screen', isSubScreen);
 
     // Re-run scroll reveal for new screen
     setTimeout(() => {
@@ -134,7 +135,12 @@ const Router = {
   },
 
   goBack() {
-    this.navigate('forside');
+    // If on a sub-screen of relationer, go back to relationer
+    if (this.current === 'rel-dybere') {
+      this.navigate('relationer');
+    } else {
+      this.navigate('forside');
+    }
   }
 };
 
@@ -487,10 +493,359 @@ function buildDybdeScreen() {
 
 
 /* ============================================================
+   BUILD RELATIONER SCREEN
+   ============================================================ */
+function buildRelationerScreen() {
+  const d = FASE_DATA;
+  const container = document.getElementById('relationer-content');
+  if (!container) return;
+
+  const elDyn = {
+    naerer: 'Din Jord nærer Metal — din stabilitet og omsorg skaber grundlag for klarhed.',
+    kontrollerer: 'Jord kontrollerer Vand — dit fundament giver det flydende retning og form.',
+    naeret_af: 'Ild nærer din Jord — passion og varme gør dit fundament levende.',
+    kontrolleret_af: 'Træ kontrollerer din Jord — vækst og forandring forhindrer stagnation.'
+  };
+
+  const samtaleAabnere = [
+    'Hvad giver dig energi i vores relation — og hvad koster?',
+    'Hvornår føler du dig mest set af mig?',
+    'Hvad har du brug for fra mig lige nu, som du ikke beder om?',
+    'Hvornår nærede vi sidst hinanden — ikke af pligt, men af lyst?',
+    'Hvad ville du ønske jeg forstod bedre ved dig?'
+  ];
+
+  const relRaad = {
+    forDig: 'Jord-energien nærer din omsorg. Du mærker måske en trang til at tage vare på andre. Husk også at nære dig selv.',
+    forAnden: 'Din partners krop kalder på det den har brug for. Mød dem der — ikke med løsninger, men med nærvær.',
+    sammen: 'I kan mødes over mad, samtale og tryghed. Jord finder hvile i det kendte — lav noget hjemme sammen, noget roligt og varmt.'
+  };
+
+  const samtale = samtaleAabnere[Math.floor(Math.random() * samtaleAabnere.length)];
+
+  let html = '';
+
+  // ── HERO ──
+  html += `
+    <div class="section dybde-hero">
+      <div class="eyebrow" style="color:#88839e">Dine relationer</div>
+      <div class="dybde-fase-label">Når livsfaser mødes</div>
+      <div class="isa isa--sm">Hvert menneske du møder, bærer sin egen rytme. Når jeres energier mødes, sker der noget — noget der nærer, noget der udfordrer, noget der spejler det du selv bærer.</div>
+    </div>`;
+
+  // ── JERES ELEMENT-DYNAMIK ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#88839e">Dit elements relationer</div>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Det du nærer</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose"><p>${elDyn.naerer}</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Det der nærer dig</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose"><p>${elDyn.naeret_af}</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Det du udfordrer</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose"><p>${elDyn.kontrollerer}</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Det der udfordrer dig</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose"><p>${elDyn.kontrolleret_af}</p></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── RELATIONER I DIN FASE ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#88839e">Relationer i din fase</div>
+      ${renderTruncated(d.relationerIFasen, 5)}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── SAMTALÅBNER ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#88839e">Samtaleåbner</div>
+      <div class="refleksion-box" style="border-left-color:#88839e">
+        <div class="isa">${samtale}</div>
+      </div>
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── RÅD TIL JERES RELATION ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#88839e">Råd til jeres relation</div>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">For dig</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose"><p>${relRaad.forDig}</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">For den anden</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose"><p>${relRaad.forAnden}</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Noget I kan gøre sammen</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose"><p>${relRaad.sammen}</p></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── DYK DYBERE ──
+  html += `
+    <div class="section" style="text-align:center">
+      <div class="eyebrow" style="color:#88839e">Dyk dybere</div>
+      <div class="explore-pills">
+        <span class="explore-pill" data-link="rel-dybere" style="color:#88839e;border-color:rgba(123,122,158,0.2)">Dine Dybere Relationer →</span>
+      </div>
+    </div>`;
+
+  // ── PULL QUOTE ──
+  html += `
+    <div class="section">
+      <div class="pull-quote" style="border-left-color:#88839e">De mennesker vi vælger at bære med os, er sjældent tilfældige. De bærer det element vi selv mangler — eller det vi har for meget af.</div>
+    </div>`;
+
+  html += `
+    <div class="back-to-top" style="margin-top:var(--sp-6)">
+      <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen ↑</a>
+    </div>`;
+
+  container.innerHTML = html;
+}
+
+
+/* ============================================================
+   BUILD DYBERE RELATIONER SCREEN
+   ============================================================ */
+function buildRelDybereScreen() {
+  const d = FASE_DATA;
+  const container = document.getElementById('rel-dybere-content');
+  if (!container) return;
+
+  const dynamikker = {
+    'JORD_VAND': 'Jord møder Vand. Din omsorg udfordrer vandets flow — men giver det retning og form. Der er en spænding mellem at holde fast og lade strømme, og det er netop den spænding der kan skabe dybde.',
+    'JORD_TRAE': 'Jord møder Træ. Træets vækst rusker i dit fundament. Noget nyt vil frem, men noget andet vil holde fast. Kunsten er at lade væksten ske uden at miste dit fundament.',
+    'JORD_ILD': 'Jord møder Ild. Ildens varme nærer din jord — passion og energi gør dit fundament levende. Det er en naturlig næring: ild skaber det, jord bærer det.',
+    'JORD_METAL': 'Jord møder Metal. Din stabilitet skaber grundlag for metallets klarhed. Det er jordens gave: at bære, så andre kan se klart. Men husk at klarheden også kan vise dig, hvad din jord har brug for.',
+    'JORD_JORD': 'Jord møder Jord. Dobbelt fundament — dyb tryghed og gensidig næring. To jordmennesker kan skabe et hjem der føles urokkeligt. Men husk bevægelse — jord der aldrig vendes, bliver hård.'
+  };
+
+  const faseMoeder = {
+    titel: 'Når Fase 5 møder andre faser',
+    tekster: [
+      { fase: 'Fase 1-2 (børn)', tekst: 'Dine børn er sandsynligvis i de tidligste faser — ren vækst, ren sansning. Mødet mellem din jordfase og deres træ-fase kan være det smukkeste og det sværeste. De har brug for alt, og du giver alt. Husk: dit barn har mere brug for en nogenlunde glad mor end en perfekt udmattet en.' },
+      { fase: 'Fase 3 (teenagere)', tekst: 'Ild møder jord. Teenagerens intensitet og behov for løsrivelse kan ryste dit fundament. De presser mod grænser lige når du selv har allermest brug for stabilitet. Jordens gave er at rumme ilden uden at slukke den.' },
+      { fase: 'Fase 4-5 (partner/venner)', tekst: 'Jord møder jord — eller jord møder det element din partner bærer. Parforholdet sættes på prøve af travlheden. Hvem tager sig af hvad? Hvem har ret til at være træt? Det der holder jer sammen er evnen til at være et team — og at huske at nære forbindelsen, ikke kun forpligtelsen.' },
+      { fase: 'Fase 8-9 (forældre)', tekst: 'Dine forældre bevæger sig mod dybde og visdom. Rollerne begynder at bytte — du bliver den der holder øje, koordinerer, bekymrer dig. Sandwich-positionen er reel og udmattende. Jord-elementet vil nære alle, men navet slider ned når hjulet aldrig holder stille.' }
+    ]
+  };
+
+  const centraleFoelelser = {
+    dig: { title: 'Din følelse: Omsorg', tekst: 'Jord-elementets gave er omsorg — den dybe, instinktive omsorg der gør dig til centrum. Men skyggefølelsen er bekymring. Tankerne kører i ring, og bekymringen slider jorden ned. At lære at modtage omsorg er lige så vigtigt som at give den.' },
+    partner: { title: 'Det du møder i andre', tekst: 'Hvert element bærer sin egen følelse. Vand bærer frygt og dybde. Træ bærer frustration og vækst. Ild bærer glæde og rastløshed. Metal bærer sorg og klarhed. Når du forstår den andens element, forstår du deres følelsesliv — og hvorfor I nogle gange taler forbi hinanden.' }
+  };
+
+  const parOevelse = {
+    title: 'Ét ritual for jeres forbindelse',
+    desc: 'Sæt jer over for hinanden. Luk øjnene i ét minut. Åbn dem og se den anden i øjnene — uden ord, uden dagsorden. Bare to mennesker der ser hinanden. Jord-elementet finder hvile i nærvær, ikke i ord. Ti sekunder er nok til at minde jer om, at I er mere end en to-do-liste.'
+  };
+
+  let html = '';
+
+  // ── HERO ──
+  html += `
+    <div class="section dybde-hero">
+      <div class="eyebrow" style="color:#88839e">Dine dybere relationer</div>
+      <div class="dybde-fase-label">Elementerne der mødes</div>
+      <div class="isa isa--sm">Når to mennesker mødes, mødes to elementer. Den dynamik — hvad der nærer, hvad der udfordrer, hvad der spejler — er nøglen til at forstå jeres relation på et dybere plan.</div>
+    </div>`;
+
+  // ── ELEMENT-DYNAMIKKER ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#88839e">Jord møder de andre elementer</div>
+      ${Object.entries(dynamikker).map(([key, tekst]) => {
+        const elNavn = key.split('_')[1];
+        const labels = { VAND: 'Vand', TRAE: 'Træ', ILD: 'Ild', METAL: 'Metal', JORD: 'Jord' };
+        return `
+        <div class="expand-card">
+          <div class="expand-header">
+            <span class="expand-header-title">Jord møder ${labels[elNavn]}</span>
+            <span class="expand-chevron">›</span>
+          </div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <div class="prose"><p>${tekst}</p></div>
+            </div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── NÅR FASE 5 MØDER ANDRE FASER ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#88839e">${faseMoeder.titel}</div>
+      ${faseMoeder.tekster.map(t => `
+        <div class="expand-card">
+          <div class="expand-header">
+            <span class="expand-header-title">${t.fase}</span>
+            <span class="expand-chevron">›</span>
+          </div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <div class="prose"><p>${t.tekst}</p></div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── JERES CENTRALE FØLELSER ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#88839e">Jeres centrale følelser</div>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">${centraleFoelelser.dig.title}</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose"><p>${centraleFoelelser.dig.tekst}</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">${centraleFoelelser.partner.title}</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose"><p>${centraleFoelelser.partner.tekst}</p></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── ØVELSE SAMMEN ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#88839e">Noget I kan gøre sammen</div>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">${parOevelse.title}</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose"><p>${parOevelse.desc}</p></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  // ── REFLEKSION ──
+  html += `
+    <div class="section">
+      <div class="eyebrow" style="color:#88839e">Refleksion</div>
+      <div class="refleksion-box" style="border-left-color:#88839e">
+        <div class="isa">Hvem giver dig energi — og hvem kræver den? Det er ikke et spørgsmål om skyld. Det er et spørgsmål om elementernes samspil.</div>
+      </div>
+    </div>`;
+
+  // ── PULL QUOTE ──
+  html += `
+    <div class="section">
+      <div class="pull-quote" style="border-left-color:#88839e">Måske undrer du dig over, hvorfor nogle mennesker føles som at komme hjem — mens andre langsomt tømmer dig. Det handler ikke om vilje. Det handler om elementer der mødes.</div>
+    </div>`;
+
+  html += `
+    <div class="back-to-top" style="margin-top:var(--sp-6)">
+      <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen ↑</a>
+    </div>`;
+
+  container.innerHTML = html;
+}
+
+
+/* ============================================================
    INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
   buildDybdeScreen();
+  buildRelationerScreen();
+  buildRelDybereScreen();
   initHeaderScroll();
   initInteractions();
   initScrollReveal();
