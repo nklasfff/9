@@ -192,20 +192,21 @@ function initHeaderScroll() {
    EXPANDABLE CARDS
    ============================================================ */
 function initExpandCards() {
-  document.querySelectorAll('.expand-card').forEach(card => {
-    const header = card.querySelector('.expand-header');
+  // Use event delegation so dynamically built cards work too
+  document.addEventListener('click', (e) => {
+    const header = e.target.closest('.expand-header');
+    if (!header) return;
+    const card = header.closest('.expand-card');
     const body = card.querySelector('.expand-body');
-    if (!header || !body) return;
+    if (!card || !body) return;
 
-    header.addEventListener('click', () => {
-      const isOpen = card.classList.contains('open');
-      card.classList.toggle('open');
-      if (isOpen) {
-        body.style.maxHeight = '0';
-      } else {
-        body.style.maxHeight = body.scrollHeight + 'px';
-      }
-    });
+    const isOpen = card.classList.contains('open');
+    card.classList.toggle('open');
+    if (isOpen) {
+      body.style.maxHeight = '0';
+    } else {
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
   });
 }
 
@@ -214,14 +215,14 @@ function initExpandCards() {
    READ MORE (truncated text)
    ============================================================ */
 function initReadMore() {
-  document.querySelectorAll('.read-more-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const target = btn.previousElementSibling;
-      if (!target) return;
-      const isExpanded = target.classList.contains('expanded');
-      target.classList.toggle('expanded');
-      btn.textContent = isExpanded ? 'Læs mere →' : 'Læs mindre ↑';
-    });
+  document.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('read-more-btn')) return;
+    const btn = e.target;
+    const target = btn.previousElementSibling;
+    if (!target) return;
+    const isExpanded = target.classList.contains('expanded');
+    target.classList.toggle('expanded');
+    btn.textContent = isExpanded ? 'Læs mere →' : 'Læs mindre ↑';
   });
 }
 
@@ -354,14 +355,21 @@ function buildDybdeScreen() {
                 ${d.ubalanceTegn.mentale.map(t => `<li>${t}</li>`).join('')}
               </ul>
             </div>
-            ${d.ubalanceTegn.aarsag ? `
-            <div class="ubalance-group" style="margin-top:var(--sp-4)">
-              <div class="ubalance-group-label">Årsager</div>
-              <div class="prose">${textToHtml(d.ubalanceTegn.aarsag)}</div>
-            </div>` : ''}
           </div>
         </div>
       </div>
+      ${d.ubalanceTegn.aarsag ? `
+      <div class="expand-card" style="margin-top:var(--sp-3)">
+        <div class="expand-header">
+          <span class="expand-header-title">Årsager</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose">${textToHtml(d.ubalanceTegn.aarsag)}</div>
+          </div>
+        </div>
+      </div>` : ''}
     </div>`;
 
   // Divider
