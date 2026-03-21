@@ -338,6 +338,11 @@ function buildDybdeScreen() {
           ${d.ubalanceTegn.mentale.map(t => `<li>${t}</li>`).join('')}
         </ul>
       </div>
+      ${d.ubalanceTegn.aarsag ? `
+      <div class="ubalance-group" style="margin-top:var(--sp-4)">
+        <div class="ubalance-group-label">Årsager</div>
+        <div class="prose">${textToHtml(d.ubalanceTegn.aarsag)}</div>
+      </div>` : ''}
     </div>`;
 
   // Divider
