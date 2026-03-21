@@ -260,7 +260,7 @@ function buildDybdeScreen() {
 
   let html = '';
 
-  // 1. Hero
+  // ── HERO ──
   html += `
     <div class="section dybde-hero">
       <div class="eyebrow">Din livsfase</div>
@@ -269,25 +269,19 @@ function buildDybdeScreen() {
       <div class="fig" style="margin-top:var(--sp-4)">
         <img src="Gemini_Generated_Image_4llrmp4llrmp4llr.png" alt="Dine fem cyklusser" style="max-width:260px">
       </div>
-      <div class="dybde-element-meta">
-        <span class="dybde-meta-pill">${d.elementInfo.energi}</span>
-        <span class="dybde-meta-pill">${d.organPar}</span>
-        <span class="dybde-meta-pill">${d.aarstid}</span>
-        <span class="dybde-meta-pill">${d.elementInfo.farve}</span>
-      </div>
     </div>`;
 
-  // 2. Denne fase i dig
+  // ── DENNE FASE I DIG ──
   html += `
     <div class="section">
       <div class="eyebrow">Denne fase i dig</div>
       ${renderTruncated(d.denneFaseIDig, 5)}
     </div>`;
 
-  // Divider
+  // ── DIVIDER ──
   html += '<div class="section"><div class="divider"></div></div>';
 
-  // 3. Central følelse
+  // ── DIN CENTRALE FØLELSE ──
   html += `
     <div class="section">
       <div class="eyebrow">Din centrale følelse</div>
@@ -295,32 +289,37 @@ function buildDybdeScreen() {
       ${renderTruncated(d.centralFoelelse.tekst, 5)}
     </div>`;
 
-  // Dots
-  html += '<div class="section"><div class="dots">· · ·</div></div>';
-
-  // 4. Krop & Sind
-  html += `
-    <div class="section">
-      <div class="eyebrow">Krop & sind</div>
-      <div class="ks-grid">
-        <div class="ks-card">
-          <div class="ks-label">Kroppen</div>
-          ${renderTruncated(d.kropTekst, 4)}
-        </div>
-        <div class="ks-card">
-          <div class="ks-label">Sindet</div>
-          ${renderTruncated(d.sindTekst, 4)}
-        </div>
-      </div>
-    </div>`;
-
-  // Divider
+  // ── DIVIDER ──
   html += '<div class="section"><div class="divider"></div></div>';
 
-  // 5-6. Balance, Ubalance & Årsager — samlet i én sektion
+  // ── KROP & SIND + BALANCE/UBALANCE — samlet som fordybelse ──
   html += `
     <div class="section">
-      <div class="eyebrow">Balance & ubalance</div>
+      <div class="eyebrow">Krop, sind & balance</div>
+
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Kroppen i denne fase</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose">${textToHtml(d.kropTekst)}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Sindet i denne fase</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose">${textToHtml(d.sindTekst)}</div>
+          </div>
+        </div>
+      </div>
 
       <div class="expand-card">
         <div class="expand-header">
@@ -357,10 +356,9 @@ function buildDybdeScreen() {
         </div>
       </div>
 
-      ${d.ubalanceTegn.aarsag ? `
       <div class="expand-card">
         <div class="expand-header">
-          <span class="expand-header-title">Årsager</span>
+          <span class="expand-header-title">Årsager til ubalance</span>
           <span class="expand-chevron">›</span>
         </div>
         <div class="expand-body">
@@ -368,13 +366,13 @@ function buildDybdeScreen() {
             <div class="prose">${textToHtml(d.ubalanceTegn.aarsag)}</div>
           </div>
         </div>
-      </div>` : ''}
+      </div>
     </div>`;
 
-  // Divider
+  // ── DIVIDER ──
   html += '<div class="section"><div class="divider"></div></div>';
 
-  // 7. Temaer (expandable)
+  // ── TEMAER — det dybe indhold ──
   html += `
     <div class="section">
       <div class="eyebrow">Fasens temaer</div>
@@ -393,44 +391,28 @@ function buildDybdeScreen() {
       `).join('')}
     </div>`;
 
-  // Dots
-  html += '<div class="section"><div class="dots">· · ·</div></div>';
-
-  // 8. Øvelser
-  html += `
-    <div class="section">
-      <div class="eyebrow">Fasens øvelser</div>
-      ${d.oevelser.map(o => `
-        <div class="oevelse-card">
-          <div class="oevelse-type">${o.type}</div>
-          <div class="oevelse-title">${o.title}</div>
-          <div class="oevelse-desc">${o.desc}</div>
-        </div>
-      `).join('')}
-    </div>`;
-
-  // Divider
+  // ── DIVIDER ──
   html += '<div class="section"><div class="divider"></div></div>';
 
-  // 9. Refleksion
-  const refl = d.refleksioner[Math.floor(Math.random() * d.refleksioner.length)];
+  // ── ØVELSER & RÅD — det praktiske ──
   html += `
     <div class="section">
-      <div class="eyebrow">Refleksion</div>
-      <div class="refleksion-box">
-        <div class="isa">${refl}</div>
-      </div>
-      <div class="link-center">
-        <span class="link-subtle">Skriv i din journal →</span>
-      </div>
-    </div>`;
+      <div class="eyebrow">Øvelser & råd</div>
+      ${d.oevelser.map(o => `
+        <div class="expand-card">
+          <div class="expand-header">
+            <span class="expand-header-title">${o.title}</span>
+            <span class="expand-chevron">›</span>
+          </div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <div class="meta" style="margin-bottom:var(--sp-2)">${o.type}</div>
+              <div class="prose"><p>${o.desc}</p></div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
 
-  // Dots
-  html += '<div class="section"><div class="dots">· · ·</div></div>';
-
-  // 10. Fasens råd (foldbar)
-  html += `
-    <div class="section">
       <div class="expand-card">
         <div class="expand-header">
           <span class="expand-header-title">Fasens råd</span>
@@ -444,43 +426,67 @@ function buildDybdeScreen() {
       </div>
     </div>`;
 
-  // Divider
+  // ── DIVIDER ──
   html += '<div class="section"><div class="divider"></div></div>';
 
-  // 11. Dit element (essay)
+  // ── REFLEKSION ──
+  const refl = d.refleksioner[Math.floor(Math.random() * d.refleksioner.length)];
   html += `
     <div class="section">
-      <div class="eyebrow">Dit element</div>
-      <div class="pull-quote">Jorden er det element, der holder de andre fire sammen — den er midten, navet, fundamentet som alt hviler på.</div>
-      ${renderTruncated(d.elementEssay, 5)}
+      <div class="eyebrow">Refleksion</div>
+      <div class="refleksion-box">
+        <div class="isa">${refl}</div>
+      </div>
     </div>`;
 
-  // Dots
-  html += '<div class="section"><div class="dots">· · ·</div></div>';
-
-  // 12. Relationer i fasen
-  html += `
-    <div class="section">
-      <div class="eyebrow">Relationer i denne fase</div>
-      ${renderTruncated(d.relationerIFasen, 4)}
-    </div>`;
-
-  // Divider
+  // ── DIVIDER ──
   html += '<div class="section"><div class="divider"></div></div>';
 
-  // 13. Overgangen
+  // ── DIT ELEMENT & RELATIONER — den dybere forståelse ──
   html += `
     <div class="section">
-      <div class="eyebrow">Overgangen</div>
-      <div class="prose">${textToHtml(d.overgangTekst)}</div>
+      <div class="eyebrow">Den dybere forståelse</div>
+
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Dit element — ${d.elementLabel}</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose">${textToHtml(d.elementEssay)}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Relationer i denne fase</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose">${textToHtml(d.relationerIFasen)}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Overgangen til næste fase</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose">${textToHtml(d.overgangTekst)}</div>
+          </div>
+        </div>
+      </div>
     </div>`;
 
-  // Section closer & back to top
+  // ── BACK TO TOP ──
   html += `
-    <div class="section-closer">
-      <div class="divider--subtle" style="margin:0"></div>
-    </div>
-    <div class="back-to-top">
+    <div class="back-to-top" style="margin-top:var(--sp-6)">
       <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen ↑</a>
     </div>`;
 
