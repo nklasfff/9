@@ -35,9 +35,99 @@
   <div class="main">
 
     <!-- ============================================================
+         SCREEN: ONBOARDING (Screen 1)
+         ============================================================ -->
+    <div id="screen-onboarding" class="screen">
+      <div class="ob-content">
+
+        <div class="ob-title">De 9 Livsfasers Energi</div>
+        <div class="ob-sub">En rejse gennem livets årstider</div>
+
+        <div class="ob-question-box">
+          <p>Har du nogensinde undret dig over, hvorfor nogle perioder bare flyder — og andre føles som at gå mod strømmen?</p>
+        </div>
+
+        <div class="ob-reveal-box">
+          <p>Fem rytmer løber gennem dit liv på én gang — din livsfase, årstiden, måneden, ugedagen og timen. Hver bærer sit eget element: Træ, Ild, Jord, Metal eller Vand.</p>
+          <p style="margin-top:12px">Tilsammen tegner de et billede af din energi lige nu. Nogle gange peger de i samme retning — og du mærker en dyb ro eller en stærk kraft. Andre gange trækker de i hver sin — og det kan føles uroligt, uden at du ved hvorfor.</p>
+        </div>
+
+        <div class="dots">· · ·</div>
+
+        <div class="ob-callout">
+          <div class="ob-callout-label">Og der er mere</div>
+          <p>Denne app viser dig det billede. Og den lader dig rejse i tid — tilbage til en dag der betyder noget, eller frem mod det der venter. Alene, eller sammen med nogen du holder af.</p>
+        </div>
+
+        <div class="ob-birth" id="onboarding-form">
+          <h2>Hvornår er du født?</h2>
+          <div class="ob-birth-sub">Indtast din fødselsdato, og lad os se</div>
+          <input class="ob-birth-field" id="birth-input" type="date" placeholder="Vælg dato">
+          <button class="ob-btn ob-btn-blue" id="birth-btn">Se dit liv lige nu →</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================
+         SCREEN: ONBOARDING RESULT (Screen 2)
+         ============================================================ -->
+    <div id="screen-onboarding-result" class="screen">
+      <div class="ob-content">
+
+        <div class="ob-kanji-wrap">
+          <div class="ob-kanji" id="result-kanji">土</div>
+        </div>
+
+        <div class="ob-p-title" id="result-p-title">Dit liv lige nu</div>
+
+        <div class="ob-res">
+          <div class="ob-res-label" id="result-climate">Fuld resonans</div>
+          <div class="ob-res-text" id="result-main-text">Fem cyklusser danner tilsammen et unikt mønster — dit mønster, lige nu.</div>
+          <div class="ob-res-desc" id="result-sub-text">Du mærker det måske som en dyb ro, eller som en stille kraft der bærer dig.</div>
+        </div>
+
+        <div class="ob-profil-fold">
+          <div class="ob-profil-header" id="profil-toggle">
+            <span class="ob-profil-label">Din profil</span>
+            <span class="ob-profil-arrow">›</span>
+          </div>
+          <div class="ob-profil-body" id="result-profil-rows">
+            <!-- Filled dynamically -->
+          </div>
+        </div>
+
+        <div class="ob-feelings-box">
+          <div class="ob-feelings-label" id="result-feelings-label">Jord-elementets følelser</div>
+          <div class="ob-feelings-text" id="result-feelings-text">I balance: omsorg og stabilitet. I ubalance: bekymring og udmattelse.</div>
+        </div>
+
+        <div class="dots">· · ·</div>
+
+        <div class="ob-feature-box">
+          <div class="ob-feature-label">Den ændrer sig — hver dag, i realtid</div>
+          <p>Din profil er ikke statisk. Hvert minut, hver time, hver dag ændrer billedet sig.</p>
+        </div>
+
+        <div class="ob-feature-box">
+          <div class="ob-feature-label">Den foreslår noget konkret</div>
+          <p>Øvelser, mad, åndedræt — tilpasset dit element og din krop.</p>
+        </div>
+
+        <div class="dots">· · ·</div>
+
+        <div style="text-align:center">
+          <div class="ob-cta-sub">Din personlige app venter</div>
+          <button class="ob-btn ob-btn-blue" id="continue-btn">Gå til din forside →</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================
          SCREEN: FORSIDE
          ============================================================ -->
-    <div id="screen-forside" class="screen active">
+    <div id="screen-forside" class="screen">
 
       <!-- HERO -->
       <div class="section hero">

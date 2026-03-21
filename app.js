@@ -2,6 +2,280 @@
    DE 9 LIVSFASER — App Logic
    ============================================================ */
 
+
+/* ============================================================
+   STORAGE — Local persistence for onboarding state
+   ============================================================ */
+const Storage = {
+  saveUser(data) {
+    localStorage.setItem('livsfaser_user', JSON.stringify(data));
+  },
+  getUser() {
+    const raw = localStorage.getItem('livsfaser_user');
+    return raw ? JSON.parse(raw) : null;
+  },
+  isOnboarded() {
+    return localStorage.getItem('livsfaser_onboarded') === 'true';
+  },
+  setOnboarded() {
+    localStorage.setItem('livsfaser_onboarded', 'true');
+  },
+  getLocalDateStr() {
+    return new Date().toISOString().split('T')[0];
+  }
+};
+
+
+/* ============================================================
+   CALCULATIONS — Life phase & element cycles
+   ============================================================ */
+const Calculations = {
+  ELEMENT_LABELS: { 'VAND': 'Vand', 'TRÆ': 'Træ', 'ILD': 'Ild', 'JORD': 'Jord', 'METAL': 'Metal' },
+  ELEMENT_TEGN:   { 'VAND': '水', 'TRÆ': '木', 'ILD': '火', 'JORD': '土', 'METAL': '金' },
+
+  getLifePhase(birthdate) {
+    const birth = new Date(birthdate);
+    const now = new Date();
+    const age = now.getFullYear() - birth.getFullYear() -
+      (now < new Date(now.getFullYear(), birth.getMonth(), birth.getDate()) ? 1 : 0);
+
+    // 9 life phases mapped to age ranges
+    const phases = [
+      { phase: 1, name: 'Vand', element: 'VAND', min: 0, max: 6 },
+      { phase: 2, name: 'Træ', element: 'TRÆ', min: 7, max: 13 },
+      { phase: 3, name: 'Ild', element: 'ILD', min: 14, max: 20 },
+      { phase: 4, name: 'Jord', element: 'JORD', min: 21, max: 27 },
+      { phase: 5, name: 'Metal', element: 'METAL', min: 28, max: 34 },
+      { phase: 6, name: 'Vand', element: 'VAND', min: 35, max: 41 },
+      { phase: 7, name: 'Træ', element: 'TRÆ', min: 42, max: 48 },
+      { phase: 8, name: 'Ild', element: 'ILD', min: 49, max: 55 },
+      { phase: 9, name: 'Metal', element: 'METAL', min: 56, max: 200 }
+    ];
+
+    for (const p of phases) {
+      if (age >= p.min && age <= p.max) return p;
+    }
+    return phases[phases.length - 1];
+  },
+
+  getSeason() {
+    const month = new Date().getMonth();
+    if (month >= 2 && month <= 4) return { season: 'Forår', element: 'TRÆ' };
+    if (month >= 5 && month <= 6) return { season: 'Sommer', element: 'ILD' };
+    if (month === 7) return { season: 'Sensommer', element: 'JORD' };
+    if (month >= 8 && month <= 10) return { season: 'Efterår', element: 'METAL' };
+    return { season: 'Vinter', element: 'VAND' };
+  },
+
+  getMonthCycle() {
+    const month = new Date().getMonth();
+    const elements = ['VAND', 'VAND', 'TRÆ', 'TRÆ', 'TRÆ', 'ILD', 'ILD', 'JORD', 'METAL', 'METAL', 'METAL', 'VAND'];
+    return { element: elements[month] };
+  },
+
+  getOrganClock() {
+    const hour = new Date().getHours();
+    const clocks = [
+      { hours: '23-01', organ: 'Galdeblæren', element: 'TRÆ' },
+      { hours: '01-03', organ: 'Leveren', element: 'TRÆ' },
+      { hours: '03-05', organ: 'Lungerne', element: 'METAL' },
+      { hours: '05-07', organ: 'Tyktarmen', element: 'METAL' },
+      { hours: '07-09', organ: 'Maven', element: 'JORD' },
+      { hours: '09-11', organ: 'Milten', element: 'JORD' },
+      { hours: '11-13', organ: 'Hjertet', element: 'ILD' },
+      { hours: '13-15', organ: 'Tyndtarmen', element: 'ILD' },
+      { hours: '15-17', organ: 'Blæren', element: 'VAND' },
+      { hours: '17-19', organ: 'Nyrerne', element: 'VAND' },
+      { hours: '19-21', organ: 'Perikardiet', element: 'ILD' },
+      { hours: '21-23', organ: 'Trippelvarmeren', element: 'ILD' }
+    ];
+    const index = Math.floor(hour / 2) % 12;
+    // Map hour to correct clock position
+    if (hour >= 23 || hour < 1) return clocks[0];
+    if (hour >= 1 && hour < 3) return clocks[1];
+    if (hour >= 3 && hour < 5) return clocks[2];
+    if (hour >= 5 && hour < 7) return clocks[3];
+    if (hour >= 7 && hour < 9) return clocks[4];
+    if (hour >= 9 && hour < 11) return clocks[5];
+    if (hour >= 11 && hour < 13) return clocks[6];
+    if (hour >= 13 && hour < 15) return clocks[7];
+    if (hour >= 15 && hour < 17) return clocks[8];
+    if (hour >= 17 && hour < 19) return clocks[9];
+    if (hour >= 19 && hour < 21) return clocks[10];
+    return clocks[11];
+  },
+
+  getUserCycles(birthdate) {
+    const lifePhase = this.getLifePhase(birthdate);
+    const season = this.getSeason();
+    const monthCycle = this.getMonthCycle();
+    const organ = this.getOrganClock();
+
+    // Count element occurrences to find dominant
+    const counts = {};
+    [lifePhase.element, season.element, monthCycle.element, organ.element].forEach(el => {
+      counts[el] = (counts[el] || 0) + 1;
+    });
+
+    let dominant = lifePhase.element;
+    let maxCount = 0;
+    for (const [el, count] of Object.entries(counts)) {
+      if (count > maxCount) { maxCount = count; dominant = el; }
+    }
+
+    return {
+      cycles: { lifePhase, season, monthCycle, organ },
+      dominant: { element: dominant, count: maxCount }
+    };
+  }
+};
+
+
+/* ============================================================
+   ONBOARDING DATA
+   ============================================================ */
+const ELEMENT_INTRO = {
+  'VAND': 'Vand er det dybeste element — det der bærer alt andet. Lige nu kalder det på stilhed, hvile og tillid til det, der ikke kan ses endnu.',
+  'TRÆ': 'Træ er vækst og retning. Det presser opad og udad, med kraft og vilje. Lige nu mærker du måske en trang til at skabe, bevæge dig, handle.',
+  'ILD': 'Ild er glæde, intensitet og forbindelse. Den brænder i dig som nærvær og lidenskab. Lige nu er din evne til at møde andre på sit stærkeste.',
+  'JORD': 'Jord er forankring og omsorg. Den bærer, nærer og holder fast. Lige nu har du en særlig evne til at skabe tryghed — for dig selv og andre.',
+  'METAL': 'Metal er klarhed og essentiel styrke. Det skærer igennem og viser det væsentlige. Lige nu har du adgang til en dyb klarhed om hvad der virkelig betyder noget.'
+};
+
+const ELEMENT_KVALITETER = {
+  'VAND': 'stilhed · dybde · intuition',
+  'TRÆ': 'vækst · retning · vilje',
+  'ILD': 'glæde · forbindelse · intensitet',
+  'JORD': 'næring · omsorg · fundament',
+  'METAL': 'klarhed · essens · frigivelse'
+};
+
+const MONTHS_DA = ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'];
+
+const LIVSFASE_FEELINGS = {
+  1: { balance: 'tryghed og tillid', ubalance: 'frygt og tilbagetrækning' },
+  2: { balance: 'nysgerrighed og kreativitet', ubalance: 'frustration og vrede' },
+  3: { balance: 'glæde og forbindelse', ubalance: 'rastløshed og overstimulering' },
+  4: { balance: 'stabilitet og omsorg', ubalance: 'bekymring og overansvar' },
+  5: { balance: 'omsorg og stabilitet', ubalance: 'bekymring og udmattelse' },
+  6: { balance: 'klarhed og frigivelse', ubalance: 'sorg og kontrolbehov' },
+  7: { balance: 'fornyet retning og mod', ubalance: 'bitterhed og stagnation' },
+  8: { balance: 'dybde og visdom', ubalance: 'ensomhed og overintensitet' },
+  9: { balance: 'ro og accept', ubalance: 'isolation og stivhed' }
+};
+
+
+/* ============================================================
+   ONBOARDING FUNCTIONS
+   ============================================================ */
+function initOnboarding() {
+  const form = document.getElementById('onboarding-form');
+  if (!form) return;
+
+  const input = document.getElementById('birth-input');
+  const btn = document.getElementById('birth-btn');
+
+  if (btn) {
+    btn.addEventListener('click', () => {
+      const val = input ? input.value : '';
+      if (!val) return;
+
+      const date = new Date(val);
+      if (isNaN(date.getTime())) {
+        alert('Indtast venligst en gyldig dato');
+        return;
+      }
+
+      Storage.saveUser({
+        birthdate: val,
+        createdAt: Storage.getLocalDateStr()
+      });
+
+      Router.navigate('onboarding-result');
+    });
+  }
+}
+
+function initOnboardingResult() {
+  const user = Storage.getUser();
+  if (!user || !user.birthdate) {
+    Router.navigate('onboarding');
+    return;
+  }
+
+  const data = Calculations.getUserCycles(user.birthdate);
+  const { cycles, dominant } = data;
+  const elLabel = Calculations.ELEMENT_LABELS[dominant.element];
+  const elTegn = Calculations.ELEMENT_TEGN[dominant.element];
+  const phase = cycles.lifePhase;
+
+  // Kanji
+  const kanjiEl = document.getElementById('result-kanji');
+  if (kanjiEl) kanjiEl.textContent = elTegn;
+
+  // Climate label
+  const climateLabel = dominant.count >= 3 ? 'Fuld resonans' : dominant.count === 2 ? 'Dobbelt resonans' : 'Blandet energi';
+  const climateEl = document.getElementById('result-climate');
+  if (climateEl) climateEl.textContent = climateLabel;
+
+  // Main text
+  const mainTextEl = document.getElementById('result-main-text');
+  if (mainTextEl) mainTextEl.textContent = ELEMENT_INTRO[dominant.element] || 'Fem cyklusser danner tilsammen et unikt mønster — dit mønster, lige nu.';
+
+  // Sub text
+  const subTexts = {
+    'VAND': 'Du mærker det måske som en dyb ro, eller som en stille kraft der bærer dig.',
+    'TRÆ': 'Du mærker det måske som en trang til at handle, skabe og bevæge dig fremad.',
+    'ILD': 'Du mærker det måske som en varme i brystet, en glæde der søger forbindelse.',
+    'JORD': 'Du mærker det måske som en trang til at nære, samle og skabe tryghed.',
+    'METAL': 'Du mærker det måske som klarhed — en evne til at se hvad der virkelig tæller.'
+  };
+  const subTextEl = document.getElementById('result-sub-text');
+  if (subTextEl) subTextEl.textContent = subTexts[dominant.element] || '';
+
+  // Profile rows
+  const rows = [
+    { label: 'Livsfase', value: `Fase ${phase.phase} – ${phase.name} (${Calculations.ELEMENT_LABELS[phase.element]})` },
+    { label: 'Årstid', value: `${cycles.season.season} – ${Calculations.ELEMENT_LABELS[cycles.season.element]}` },
+    { label: 'Måned', value: `${MONTHS_DA[new Date().getMonth()]} – ${Calculations.ELEMENT_LABELS[cycles.monthCycle.element]}` },
+    { label: 'Organur', value: `${cycles.organ.hours} – ${cycles.organ.organ} (${Calculations.ELEMENT_LABELS[cycles.organ.element]})` }
+  ];
+  const profilEl = document.getElementById('result-profil-rows');
+  if (profilEl) {
+    profilEl.innerHTML = rows.map(r =>
+      `<div class="ob-pr"><span class="ob-pk">${r.label}</span><span class="ob-pv">${r.value}</span></div>`
+    ).join('');
+  }
+
+  // Feelings
+  const phaseDetail = LIVSFASE_FEELINGS[phase.phase];
+  if (phaseDetail) {
+    const feelingsLabel = document.getElementById('result-feelings-label');
+    if (feelingsLabel) feelingsLabel.textContent = `${elLabel}-elementets følelser`;
+    const feelingsText = document.getElementById('result-feelings-text');
+    if (feelingsText) feelingsText.textContent = `I balance: ${phaseDetail.balance}. I ubalance: ${phaseDetail.ubalance}.`;
+  }
+
+  // Profile fold toggle
+  const profilToggle = document.getElementById('profil-toggle');
+  if (profilToggle) {
+    profilToggle.addEventListener('click', () => {
+      profilToggle.closest('.ob-profil-fold').classList.toggle('open');
+    });
+  }
+
+  // Continue button
+  const continueBtn = document.getElementById('continue-btn');
+  if (continueBtn) {
+    continueBtn.addEventListener('click', () => {
+      Storage.setOnboarded();
+      document.body.classList.remove('onboarding');
+      Router.navigate('forside');
+    });
+  }
+}
+
+
 /* --- DATA: Fase 5 (Jord) — used as default display --- */
 const FASE_DATA = {
   phase: 5,
@@ -119,6 +393,10 @@ const Router = {
     this.current = screenId;
     window.scrollTo({ top: 0, behavior: 'instant' });
 
+    // Toggle onboarding mode (hide header/nav)
+    const isOnboarding = screenId.startsWith('onboarding');
+    document.body.classList.toggle('onboarding', isOnboarding);
+
     // Update nav
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     const activeNav = document.querySelector(`[data-nav="${screenId}"]`);
@@ -126,7 +404,11 @@ const Router = {
 
     // Toggle back button (show on sub-screens, not main nav screens)
     const mainScreens = ['forside', 'dybde', 'tidsrejse', 'relationer'];
-    document.body.classList.toggle('sub-screen', !mainScreens.includes(screenId));
+    document.body.classList.toggle('sub-screen', !mainScreens.includes(screenId) && !isOnboarding);
+
+    // Init onboarding screens
+    if (screenId === 'onboarding') initOnboarding();
+    if (screenId === 'onboarding-result') initOnboardingResult();
 
     // Re-run scroll reveal for new screen
     setTimeout(() => {
@@ -135,7 +417,7 @@ const Router = {
   },
 
   goBack() {
-    const parentMap = { 'rel-dybere': 'relationer', 'tids-dybere': 'tidsrejse' };
+    const parentMap = { 'rel-dybere': 'relationer', 'tids-dybere': 'tidsrejse', 'onboarding-result': 'onboarding' };
     this.navigate(parentMap[this.current] || 'forside');
   }
 };
@@ -1146,7 +1428,16 @@ document.addEventListener('DOMContentLoaded', () => {
   buildTidsDybereScreen();
   initHeaderScroll();
   initInteractions();
-  initScrollReveal();
+
+  // Check if user needs onboarding
+  if (!Storage.isOnboarded()) {
+    // Start with onboarding
+    document.querySelector('.screen.active')?.classList.remove('active');
+    Router.current = null;
+    Router.navigate('onboarding');
+  } else {
+    initScrollReveal();
+  }
 
   // Nav items
   document.querySelectorAll('.nav-item').forEach(item => {
