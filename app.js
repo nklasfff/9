@@ -527,6 +527,9 @@ function buildRelationerScreen() {
       <div class="eyebrow" style="color:#88839e">Dine relationer</div>
       <div class="dybde-fase-label">Når livsfaser mødes</div>
       <div class="isa isa--sm">Hvert menneske du møder, bærer sin egen rytme. Når jeres energier mødes, sker der noget — noget der nærer, noget der udfordrer, noget der spejler det du selv bærer.</div>
+      <div class="fig" style="margin-top:var(--sp-4)">
+        <img src="relationer_forside.png" alt="Relationer" style="max-width:260px">
+      </div>
     </div>`;
 
   // ── JERES ELEMENT-DYNAMIK ──
@@ -658,6 +661,7 @@ function buildRelationerScreen() {
   // ── PULL QUOTE ──
   html += `
     <div class="section">
+      <div class="fig fig--sm"><img src="relationer_blad.png" alt="" style="max-width:180px;opacity:0.85"></div>
       <div class="pull-quote" style="border-left-color:#88839e">De mennesker vi vælger at bære med os, er sjældent tilfældige. De bærer det element vi selv mangler — eller det vi har for meget af.</div>
     </div>`;
 
@@ -714,6 +718,9 @@ function buildRelDybereScreen() {
       <div class="eyebrow" style="color:#88839e">Dine dybere relationer</div>
       <div class="dybde-fase-label">Elementerne der mødes</div>
       <div class="isa isa--sm">Når to mennesker mødes, mødes to elementer. Den dynamik — hvad der nærer, hvad der udfordrer, hvad der spejler — er nøglen til at forstå jeres relation på et dybere plan.</div>
+      <div class="fig" style="margin-top:var(--sp-4)">
+        <img src="oejeblikke_skaerm_figur_2.png" alt="Dybere relationer" style="max-width:260px">
+      </div>
     </div>`;
 
   // ── ELEMENT-DYNAMIKKER ──
@@ -811,6 +818,12 @@ function buildRelDybereScreen() {
       </div>
     </div>`;
 
+  // ── FIGUR ──
+  html += `
+    <div class="section">
+      <div class="fig fig--sm"><img src="tidslinje-figur-2.png" alt="" style="max-width:180px;opacity:0.85"></div>
+    </div>`;
+
   // ── REFLEKSION ──
   html += `
     <div class="section">
@@ -865,6 +878,9 @@ function buildTidsrejseScreen() {
       <div class="eyebrow" style="color:#8B7D9B">Tidsrejse</div>
       <div class="dybde-fase-label">Din rejse gennem tid</div>
       <div class="isa isa--sm">Din krop og sjæl har bevæget sig gennem mange faser. Hvert øjeblik i dit liv bærer sine cyklusser — og de fortæller en historie om hvem du var, hvem du er, og hvem du er ved at blive.</div>
+      <div class="fig" style="margin-top:var(--sp-4)">
+        <img src="vinduer-tid-lilla.png" alt="Tidsrejse" style="max-width:260px">
+      </div>
     </div>`;
 
   // ── DINE FEM CYKLUSSER ──
@@ -908,6 +924,12 @@ function buildTidsrejseScreen() {
 
   // ── DIVIDER ──
   html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── FIGUR ──
+  html += `
+    <div class="section">
+      <div class="fig fig--sm"><img src="lilla-lotus.png" alt="" style="max-width:140px;opacity:0.7"></div>
+    </div>`;
 
   // ── REFLEKSION ──
   html += `
@@ -979,6 +1001,9 @@ function buildTidsDybereScreen() {
       <div class="eyebrow" style="color:#8B7D9B">Din dybere tidsrejse</div>
       <div class="dybde-fase-label">Rejsen gennem tid</div>
       <div class="isa isa--sm">Se din egen historie gennem de ni fasers linse. Forstå hvad der formede dig, hvad der bærer dig nu, og hvad der venter forude.</div>
+      <div class="fig" style="margin-top:var(--sp-4)">
+        <img src="min-rejse-ikigai.png" alt="Din rejse" style="max-width:260px">
+      </div>
     </div>`;
 
   // ── TID SOM SPIRAL ──
@@ -1084,6 +1109,12 @@ function buildTidsDybereScreen() {
           </div>
         </div>
       </div>
+    </div>`;
+
+  // ── FIGUR ──
+  html += `
+    <div class="section">
+      <div class="fig fig--sm"><img src="spiral_final.png" alt="" style="max-width:180px;opacity:0.85"></div>
     </div>`;
 
   // ── REFLEKSION ──
