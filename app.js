@@ -317,9 +317,11 @@ function buildDybdeScreen() {
   // Divider
   html += '<div class="section"><div class="divider"></div></div>';
 
-  // 5. Balance (foldbar)
+  // 5-6. Balance, Ubalance & Årsager — samlet i én sektion
   html += `
     <div class="section">
+      <div class="eyebrow">Balance & ubalance</div>
+
       <div class="expand-card">
         <div class="expand-header">
           <span class="expand-header-title">Tegn på balance</span>
@@ -331,11 +333,7 @@ function buildDybdeScreen() {
           </div>
         </div>
       </div>
-    </div>`;
 
-  // 6. Ubalance (foldbar)
-  html += `
-    <div class="section">
       <div class="expand-card">
         <div class="expand-header">
           <span class="expand-header-title">Tegn på ubalance</span>
@@ -358,8 +356,9 @@ function buildDybdeScreen() {
           </div>
         </div>
       </div>
+
       ${d.ubalanceTegn.aarsag ? `
-      <div class="expand-card" style="margin-top:var(--sp-3)">
+      <div class="expand-card">
         <div class="expand-header">
           <span class="expand-header-title">Årsager</span>
           <span class="expand-chevron">›</span>
