@@ -127,11 +127,9 @@ const Router = {
     // Toggle back button
     document.body.classList.toggle('sub-screen', screenId !== 'forside');
 
-    // Re-run scroll reveal + re-init interactive elements for new screen
+    // Re-run scroll reveal for new screen
     setTimeout(() => {
       initScrollReveal();
-      initExpandCards();
-      initReadMore();
     }, 100);
   },
 
@@ -191,38 +189,32 @@ function initHeaderScroll() {
 /* ============================================================
    EXPANDABLE CARDS
    ============================================================ */
-function initExpandCards() {
-  // Use event delegation so dynamically built cards work too
+function initInteractions() {
+  // Single event delegation for ALL expand cards and read-more buttons
+  // Only runs once — handles all current and future elements
   document.addEventListener('click', (e) => {
+    // Expand cards
     const header = e.target.closest('.expand-header');
-    if (!header) return;
-    const card = header.closest('.expand-card');
-    const body = card.querySelector('.expand-body');
-    if (!card || !body) return;
-
-    const isOpen = card.classList.contains('open');
-    card.classList.toggle('open');
-    if (isOpen) {
-      body.style.maxHeight = '0';
-    } else {
-      body.style.maxHeight = body.scrollHeight + 'px';
+    if (header) {
+      const card = header.closest('.expand-card');
+      const body = card.querySelector('.expand-body');
+      if (!card || !body) return;
+      const isOpen = card.classList.contains('open');
+      card.classList.toggle('open');
+      body.style.maxHeight = isOpen ? '0px' : body.scrollHeight + 'px';
+      return;
     }
-  });
-}
 
-
-/* ============================================================
-   READ MORE (truncated text)
-   ============================================================ */
-function initReadMore() {
-  document.addEventListener('click', (e) => {
-    if (!e.target.classList.contains('read-more-btn')) return;
-    const btn = e.target;
-    const target = btn.previousElementSibling;
-    if (!target) return;
-    const isExpanded = target.classList.contains('expanded');
-    target.classList.toggle('expanded');
-    btn.textContent = isExpanded ? 'Læs mere →' : 'Læs mindre ↑';
+    // Read more buttons
+    if (e.target.classList.contains('read-more-btn')) {
+      const btn = e.target;
+      const target = btn.previousElementSibling;
+      if (!target) return;
+      const isExpanded = target.classList.contains('expanded');
+      target.classList.toggle('expanded');
+      btn.textContent = isExpanded ? 'Læs mere →' : 'Læs mindre ↑';
+      return;
+    }
   });
 }
 
@@ -500,8 +492,7 @@ function buildDybdeScreen() {
 document.addEventListener('DOMContentLoaded', () => {
   buildDybdeScreen();
   initHeaderScroll();
-  initExpandCards();
-  initReadMore();
+  initInteractions();
   initScrollReveal();
 
   // Nav items
