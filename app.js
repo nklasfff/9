@@ -554,6 +554,14 @@ function buildDybdeScreen() {
       ${renderTruncated(d.denneFaseIDig, 5)}
     </div>`;
 
+  // ── FIGUR 2: KRYDSFELTET ──
+  html += `
+    <div class="section" style="text-align:center">
+      <div class="fig">
+        <img src="krydsfelt-final.png" alt="Krydsfeltet" class="no-bg">
+      </div>
+    </div>`;
+
   // ── DIVIDER ──
   html += '<div class="section"><div class="divider"></div></div>';
 
