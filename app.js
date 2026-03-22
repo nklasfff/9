@@ -1436,6 +1436,12 @@ document.addEventListener('DOMContentLoaded', () => {
     Router.current = null;
     Router.navigate('onboarding');
   } else {
+    // Ensure forside is active for returning users
+    const forside = document.getElementById('screen-forside');
+    if (forside && !forside.classList.contains('active')) {
+      forside.classList.add('active');
+    }
+    Router.current = 'forside';
     initScrollReveal();
   }
 
