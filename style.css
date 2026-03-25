@@ -1330,8 +1330,8 @@ body.onboarding .main {
   filter: invert(1) hue-rotate(180deg);
   box-shadow: none;
   border-radius: 0;
-  -webkit-mask-image: radial-gradient(ellipse 85% 85% at center, black 40%, transparent 75%);
-  mask-image: radial-gradient(ellipse 85% 85% at center, black 40%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 75% at center, black 35%, transparent 65%);
+  mask-image: radial-gradient(ellipse 75% 75% at center, black 35%, transparent 65%);
 }
 
 /* --- THEME TOGGLE --- */
