@@ -4,6 +4,29 @@
 
 
 /* ============================================================
+   THEME — Dark/Light toggle with localStorage persistence
+   ============================================================ */
+function initTheme() {
+  const saved = localStorage.getItem('livsfaser_theme');
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+}
+function toggleTheme() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('livsfaser_theme', 'light');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('livsfaser_theme', 'dark');
+  }
+}
+// Apply theme immediately to avoid flash
+initTheme();
+
+
+/* ============================================================
    STORAGE — Local persistence for onboarding state
    ============================================================ */
 const Storage = {
@@ -554,6 +577,14 @@ function buildDybdeScreen() {
       ${renderTruncated(d.denneFaseIDig, 5)}
     </div>`;
 
+  // ── FIGUR 2: KRYDSFELTET ──
+  html += `
+    <div class="section" style="text-align:center">
+      <div class="fig">
+        <img src="krydsfelt-final.png" alt="Krydsfeltet" class="no-bg">
+      </div>
+    </div>`;
+
   // ── DIVIDER ──
   html += '<div class="section"><div class="divider"></div></div>';
 
@@ -936,7 +967,7 @@ function buildRelationerScreen() {
     <div class="section" style="text-align:center">
       <div class="eyebrow" >Dyk dybere</div>
       <div class="explore-pills">
-        <span class="explore-pill" data-link="rel-dybere" style="color:#88839e;border-color:rgba(123,122,158,0.2)">Dine Dybere Relationer →</span>
+        <span class="explore-pill" data-link="rel-dybere" style="color:var(--deep-link-color);border-color:var(--deep-link-border)">Dine Dybere Relationer →</span>
       </div>
     </div>`;
 
@@ -1230,7 +1261,7 @@ function buildTidsrejseScreen() {
     <div class="section" style="text-align:center">
       <div class="eyebrow" >Dyk dybere</div>
       <div class="explore-pills">
-        <span class="explore-pill" data-link="tids-dybere" style="color:#8B7D9B;border-color:rgba(139,125,155,0.2)">Din Dybere Tidsrejse →</span>
+        <span class="explore-pill" data-link="tids-dybere" style="color:var(--deep-link-color-alt);border-color:var(--deep-link-border-alt)">Din Dybere Tidsrejse →</span>
       </div>
     </div>`;
 
