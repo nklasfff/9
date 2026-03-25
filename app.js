@@ -974,7 +974,7 @@ function buildRelationerScreen() {
   // ── PULL QUOTE ──
   html += `
     <div class="section">
-      <div class="fig fig--sm"><img src="relationer_blad.png" alt="" style="max-width:180px;opacity:0.85"></div>
+      <div class="fig fig--sm"><img src="relationer_blad.png" alt="" class="no-bg" style="max-width:180px;opacity:0.85"></div>
       <div class="closing-quote">De mennesker vi vælger at bære med os, er sjældent tilfældige. De bærer det element vi selv mangler — eller det vi har for meget af.</div>
     </div>`;
 
@@ -1241,7 +1241,7 @@ function buildTidsrejseScreen() {
   // ── FIGUR ──
   html += `
     <div class="section">
-      <div class="fig fig--sm"><img src="lilla-lotus.png" alt="" style="max-width:140px;opacity:0.7"></div>
+      <div class="fig fig--sm"><img src="lilla-lotus.png" alt="" class="no-bg" style="max-width:140px;opacity:0.7"></div>
     </div>`;
 
   // ── REFLEKSION ──
@@ -1315,7 +1315,7 @@ function buildTidsDybereScreen() {
       <div class="dybde-fase-label">Rejsen gennem tid</div>
       <div class="isa isa--sm">Se din egen historie gennem de ni fasers linse. Forstå hvad der formede dig, hvad der bærer dig nu, og hvad der venter forude.</div>
       <div class="fig" style="margin-top:var(--sp-4)">
-        <img src="min-rejse-ikigai.png" alt="Din rejse" style="max-width:260px">
+        <img src="min-rejse-ikigai.png" alt="Din rejse" class="no-bg" style="max-width:260px">
       </div>
     </div>`;
 
