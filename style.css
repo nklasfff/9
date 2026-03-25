@@ -1381,6 +1381,9 @@ body.onboarding .theme-toggle { display: none; }
     margin-left: auto;
     margin-right: auto;
   }
+  .theme-toggle {
+    right: calc(50% - 350px + var(--sp-3));
+  }
   body::after {
     content: '';
     position: fixed;
