@@ -1323,13 +1323,15 @@ body.onboarding .main {
   --fig-blend: normal;
 }
 
-/* Dark mode: invert light-bg images so white → dark, preserving hue.
-   lighten blend makes any pixel darker than the bg become invisible. */
+/* Dark mode: invert light-bg images, fade edges with radial mask
+   so the rectangular boundary disappears into the app background. */
 [data-theme="dark"] .fig img.no-bg {
-  mix-blend-mode: lighten;
+  mix-blend-mode: normal;
   filter: invert(1) hue-rotate(180deg);
   box-shadow: none;
   border-radius: 0;
+  -webkit-mask-image: radial-gradient(ellipse 85% 85% at center, black 40%, transparent 75%);
+  mask-image: radial-gradient(ellipse 85% 85% at center, black 40%, transparent 75%);
 }
 
 /* --- THEME TOGGLE --- */
