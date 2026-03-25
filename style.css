@@ -1323,10 +1323,11 @@ body.onboarding .main {
   --fig-blend: normal;
 }
 
-/* Dark mode: invert light-bg images so white → dark, preserving hue */
+/* Dark mode: invert light-bg images so white → dark, preserving hue.
+   lighten blend makes any pixel darker than the bg become invisible. */
 [data-theme="dark"] .fig img.no-bg {
-  mix-blend-mode: normal;
-  filter: invert(1) hue-rotate(180deg) brightness(1.35);
+  mix-blend-mode: lighten;
+  filter: invert(1) hue-rotate(180deg);
   box-shadow: none;
 }
 
