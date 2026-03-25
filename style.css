@@ -1325,8 +1325,8 @@ body.onboarding .main {
 
 /* Dark mode: invert light-bg images so white → dark, preserving hue */
 [data-theme="dark"] .fig img.no-bg {
-  mix-blend-mode: normal;
-  filter: invert(1) hue-rotate(180deg) brightness(1.35);
+  mix-blend-mode: screen;
+  filter: none;
   box-shadow: none;
 }
 
