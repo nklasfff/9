@@ -1329,6 +1329,7 @@ body.onboarding .main {
   mix-blend-mode: lighten;
   filter: invert(1) hue-rotate(180deg);
   box-shadow: none;
+  border-radius: 0;
 }
 
 /* --- THEME TOGGLE --- */
