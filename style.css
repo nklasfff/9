@@ -1361,3 +1361,38 @@ body.onboarding .main {
 
 /* Hide toggle during onboarding */
 body.onboarding .theme-toggle { display: none; }
+
+/* ============================================================
+   DESKTOP FRAME — center SPA in 700px column
+   ============================================================ */
+@media (min-width: 768px) {
+  .main {
+    max-width: var(--max-w);
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .header {
+    max-width: var(--max-w);
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .bottom-nav {
+    max-width: var(--max-w);
+    margin-left: auto;
+    margin-right: auto;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: var(--max-w);
+    margin: 0 auto;
+    border-left: 1.5px solid var(--accent-border);
+    border-right: 1.5px solid var(--accent-border);
+    pointer-events: none;
+    z-index: 150;
+  }
+}
