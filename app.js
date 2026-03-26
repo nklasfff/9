@@ -27,6 +27,139 @@ initTheme();
 
 
 /* ============================================================
+   SIDE MENU (Hamburger)
+   ============================================================ */
+function openMenu() {
+  document.querySelector('.side-menu').classList.add('open');
+  document.querySelector('.menu-overlay').classList.add('open');
+}
+function closeMenu() {
+  document.querySelector('.side-menu').classList.remove('open');
+  document.querySelector('.menu-overlay').classList.remove('open');
+}
+function menuNav(screenId) {
+  closeMenu();
+  setTimeout(() => Router.navigate(screenId), 150);
+}
+
+
+/* ============================================================
+   JOURNAL — write, save, display, delete
+   ============================================================ */
+const Journal = {
+  storageKey: 'livsfaser_journal',
+
+  getEntries() {
+    const raw = localStorage.getItem(this.storageKey);
+    return raw ? JSON.parse(raw) : [];
+  },
+
+  saveEntry(text) {
+    const entries = this.getEntries();
+    entries.unshift({
+      id: Date.now(),
+      text: text.trim(),
+      date: new Date().toISOString()
+    });
+    localStorage.setItem(this.storageKey, JSON.stringify(entries));
+  },
+
+  deleteEntry(id) {
+    const entries = this.getEntries().filter(e => e.id !== id);
+    localStorage.setItem(this.storageKey, JSON.stringify(entries));
+  }
+};
+
+function formatJournalDate(isoStr) {
+  const d = new Date(isoStr);
+  const months = ['januar','februar','marts','april','maj','juni','juli','august','september','oktober','november','december'];
+  const day = d.getDate();
+  const month = months[d.getMonth()];
+  const year = d.getFullYear();
+  const hours = String(d.getHours()).padStart(2, '0');
+  const mins = String(d.getMinutes()).padStart(2, '0');
+  return `${day}. ${month} ${year} · kl. ${hours}:${mins}`;
+}
+
+function renderJournalEntries() {
+  const container = document.getElementById('journal-entries');
+  const empty = document.getElementById('journal-empty');
+  if (!container) return;
+  const entries = Journal.getEntries();
+  if (entries.length === 0) {
+    container.innerHTML = '';
+    if (empty) empty.style.display = '';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+  container.innerHTML = entries.map(e => `
+    <div class="journal-entry">
+      <div class="journal-entry-date">${formatJournalDate(e.date)}</div>
+      <div class="journal-entry-text">${e.text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+      <div class="journal-entry-actions">
+        <button class="journal-delete-btn" onclick="deleteJournalEntry(${e.id})">Slet</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function saveJournalEntry() {
+  const input = document.getElementById('journal-input');
+  if (!input || !input.value.trim()) return;
+  Journal.saveEntry(input.value);
+  input.value = '';
+  renderJournalEntries();
+}
+
+function deleteJournalEntry(id) {
+  Journal.deleteEntry(id);
+  renderJournalEntries();
+}
+
+function initJournalDate() {
+  const el = document.getElementById('journal-date');
+  if (el) {
+    const now = new Date();
+    const months = ['januar','februar','marts','april','maj','juni','juli','august','september','oktober','november','december'];
+    el.textContent = `${now.getDate()}. ${months[now.getMonth()]} ${now.getFullYear()}`;
+  }
+}
+
+
+/* ============================================================
+   PROFIL — simple profile view
+   ============================================================ */
+function buildProfilScreen() {
+  const container = document.getElementById('profil-content');
+  if (!container) return;
+  const user = Storage.get();
+  const d = FASE_DATA;
+  container.innerHTML = `
+    <div class="card" style="cursor:default">
+      <div class="card-title" style="text-align:center;font-size:1.3rem;margin-bottom:var(--sp-3)">${d.elementSymbol}</div>
+      <div class="ob-pr"><span class="ob-pk">Element</span><span class="ob-pv">${d.elementLabel}</span></div>
+      <div class="ob-pr"><span class="ob-pk">Livsfase</span><span class="ob-pv">Fase ${d.phase}</span></div>
+      <div class="ob-pr"><span class="ob-pk">Kvaliteter</span><span class="ob-pv">${d.qualities}</span></div>
+      <div class="ob-pr"><span class="ob-pk">Organpar</span><span class="ob-pv">${d.organPar}</span></div>
+      <div class="ob-pr"><span class="ob-pk">Årstid</span><span class="ob-pv">${d.aarstid}</span></div>
+      <div class="ob-pr"><span class="ob-pk">Smag</span><span class="ob-pv">${d.smag}</span></div>
+    </div>
+    <div style="text-align:center;margin-top:var(--sp-4)">
+      <button class="journal-save-btn" onclick="resetProfile()" style="color:var(--text-muted);border-color:var(--text-dim);background:transparent">Nulstil profil</button>
+    </div>
+  `;
+}
+
+function resetProfile() {
+  if (confirm('Er du sikker? Dette sletter din profil og starter forfra.')) {
+    localStorage.removeItem('livsfaser_onboarded');
+    localStorage.removeItem('livsfaser_user');
+    location.reload();
+  }
+}
+
+
+/* ============================================================
    STORAGE — Local persistence for onboarding state
    ============================================================ */
 const Storage = {
@@ -429,9 +562,11 @@ const Router = {
     const mainScreens = ['forside', 'dybde', 'tidsrejse', 'relationer'];
     document.body.classList.toggle('sub-screen', !mainScreens.includes(screenId) && !isOnboarding);
 
-    // Init onboarding screens
+    // Init screens
     if (screenId === 'onboarding') initOnboarding();
     if (screenId === 'onboarding-result') initOnboardingResult();
+    if (screenId === 'journal') { initJournalDate(); renderJournalEntries(); }
+    if (screenId === 'profil') buildProfilScreen();
 
     // Re-run scroll reveal for new screen
     setTimeout(() => {
@@ -440,7 +575,7 @@ const Router = {
   },
 
   goBack() {
-    const parentMap = { 'rel-dybere': 'relationer', 'tids-dybere': 'tidsrejse', 'onboarding-result': 'onboarding' };
+    const parentMap = { 'rel-dybere': 'relationer', 'tids-dybere': 'tidsrejse', 'onboarding-result': 'onboarding', 'journal': 'forside', 'profil': 'forside' };
     this.navigate(parentMap[this.current] || 'forside');
   }
 };
@@ -1483,6 +1618,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (target) Router.navigate(target);
     });
   });
+
+  // Hamburger menu
+  document.querySelector('.header-hamburger').addEventListener('click', openMenu);
 
   // Check-in buttons
   document.querySelectorAll('.checkin-btn').forEach(btn => {
