@@ -1610,19 +1610,19 @@ body.onboarding .menu-overlay { display: none; }
    ============================================================ */
 @media (min-width: 768px) {
   .side-menu {
-    left: calc(50vw - 350px);
-    transform: translateX(-280px);
+    left: 0;
+    right: 0;
+    width: 280px;
+    margin-left: calc(50vw - 350px);
+    transform: translateX(-100%);
   }
   .side-menu.open {
-    transform: translateX(0);
+    transform: translateX(0) !important;
   }
   .menu-overlay {
     max-width: var(--max-w);
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-  }
-  .menu-overlay.open {
-    transform: translateX(-50%);
+    left: 0;
+    right: 0;
+    margin: 0 auto;
   }
 }
