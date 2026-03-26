@@ -1407,11 +1407,23 @@ body.onboarding .theme-toggle { display: none; }
 /* ============================================================
    SIDE MENU (Hamburger)
    ============================================================ */
-.menu-overlay {
+.menu-frame {
   position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 300;
+  pointer-events: none;
+  overflow: hidden;
+}
+.menu-frame.open {
+  pointer-events: auto;
+}
+.menu-overlay {
+  position: absolute;
   inset: 0;
   background: rgba(0,0,0,0.4);
-  z-index: 300;
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--dur) var(--ease);
@@ -1421,13 +1433,13 @@ body.onboarding .theme-toggle { display: none; }
   pointer-events: auto;
 }
 .side-menu {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   width: 280px;
   background: var(--bg);
-  z-index: 310;
+  z-index: 10;
   transform: translateX(-100%);
   transition: transform var(--dur) var(--ease);
   overflow-y: auto;
@@ -1609,17 +1621,8 @@ body.onboarding .menu-overlay { display: none; }
    DESKTOP FRAME — menu & overlay constrained to 700px
    ============================================================ */
 @media (min-width: 768px) {
-  .side-menu {
-    left: calc(50vw - 350px) !important;
-    transform: translateX(-100%);
-  }
-  .side-menu.open {
-    transform: translateX(0) !important;
-  }
-  .menu-overlay {
+  .menu-frame {
     max-width: var(--max-w);
-    left: 0;
-    right: 0;
     margin: 0 auto;
   }
 }

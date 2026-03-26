@@ -30,12 +30,14 @@ initTheme();
    SIDE MENU (Hamburger)
    ============================================================ */
 function openMenu() {
+  document.querySelector('.menu-frame').classList.add('open');
   document.querySelector('.side-menu').classList.add('open');
   document.querySelector('.menu-overlay').classList.add('open');
 }
 function closeMenu() {
   document.querySelector('.side-menu').classList.remove('open');
   document.querySelector('.menu-overlay').classList.remove('open');
+  document.querySelector('.menu-frame').classList.remove('open');
 }
 function menuNav(screenId) {
   closeMenu();
