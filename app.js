@@ -876,6 +876,12 @@ function buildDybdeScreen() {
   // ── DIVIDER ──
   html += '<div class="section"><div class="divider"></div></div>';
 
+  // ── FIGUR ──
+  html += `
+    <div class="section">
+      <div class="fig fig--sm"><img src="blaa_lotus_5.png" alt="" style="max-width:180px;opacity:0.85"></div>
+    </div>`;
+
   // ── REFLEKSION ──
   const refl = d.refleksioner[Math.floor(Math.random() * d.refleksioner.length)];
   html += `
@@ -929,6 +935,12 @@ function buildDybdeScreen() {
           </div>
         </div>
       </div>
+    </div>`;
+
+  // ── PULL QUOTE ──
+  html += `
+    <div class="section">
+      <div class="closing-quote">Den fase du er i nu, er ikke et sted du skal forbi. Det er et sted du skal igennem — med opmærksomhed, med nærvær, med alt det du er.</div>
     </div>`;
 
   // ── BACK TO TOP ──
@@ -1579,6 +1591,480 @@ function buildTidsDybereScreen() {
       </div>
     </div>`;
 
+  // ── PULL QUOTE ──
+  html += `
+    <div class="section">
+      <div class="closing-quote">Tiden er ikke en linje. Den er en spiral — og hvert lag bærer sine egne gaver, sine egne sår, sine egne sandheder.</div>
+    </div>`;
+
+  html += `
+    <div class="back-to-top" style="margin-top:var(--sp-6)">
+      <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen ↑</a>
+    </div>`;
+
+  container.innerHTML = html;
+}
+
+
+/* ============================================================
+   BUILD DE NI FASER SCREEN
+   ============================================================ */
+function buildNiFaserScreen() {
+  const d = FASE_DATA;
+  const container = document.getElementById('ni-faser-content');
+  if (!container) return;
+
+  const faser = [
+    { fase: 'Fase 1 · Vand · 0–7 år', titel: 'Livets begyndelse', tekst: 'Vandets tid. Alt er nyt, alt er muligt. Barnet lever i kroppen og i øjeblikket — uden at spørge hvorfor. Nyrerne og vand-elementet dominerer: dybde, essens, grundlæggende livskraft. Her lægges grundstenen for alt det, der kommer.' },
+    { fase: 'Fase 2 · Vand · 7–14 år', titel: 'Udforskning', tekst: 'Vandets anden bølge. Barnet begynder at spørge, at mærke grænser, at forstå at verden er større end hjemmet. Nysgerrigheden vokser — og med den evnen til at bevæge sig ud i det ukendte.' },
+    { fase: 'Fase 3 · Træ · 14–21 år', titel: 'Forvandling', tekst: 'Træets tid. Kroppen forandres, identiteten brydes og bygges. Alt er intenst, alt er vigtigt, alt er nu. Leveren og træ-elementet giver retning og nysgerrighed. De første dybe forbindelser får form.' },
+    { fase: 'Fase 4 · Træ · 21–28 år', titel: 'Blomstring', tekst: 'Træets blomstring. Kroppen er stærk, viljen er klar. Livet folder sig ud med en kraft der føles ustoppelig. Karriere, relationer, identitet — alt tager form.' },
+    { fase: 'Fase 5 · Jord · 28–35 år', titel: 'Ansvar', tekst: 'Jordens tid. Alt kræver opmærksomhed — børn, karriere, parforhold. Energien er centrerende og bærende — men jorden har også brug for næring. Milten arbejder på overarbejde.' },
+    { fase: 'Fase 6 · Jord · 35–42 år', titel: 'Modning', tekst: 'Jordens høst. Kroppen beder om langsommere, dybere, mere rodfæstet. Prioriteterne skifter stille — fra mere til nok. Det du har sået, modner nu.' },
+    { fase: 'Fase 7 · Metal · 42–49 år', titel: 'Høst', tekst: 'Metallets tid. Overgangsalderen og den dybe sortering. Alt det der ikke længere tjener dig, falder væk. Lungerne og tyktarmen renser — fysisk og mentalt. Der er sorg i det — men også en befrielse der kan overraske.' },
+    { fase: 'Fase 8 · Metal · 49–56 år', titel: 'Frigørelse', tekst: 'Metallets klarhed. Skarphed, klarhed, afskillelse. Du giver slip på det der ikke længere tjener dig — og finder frihed i det tomme rum. En ny stilhed melder sig.' },
+    { fase: 'Fase 9 · Vand · 56–63 år', titel: 'Visdom', tekst: 'Vandets tilbagevenden. Cirklen slutter sig. Alt det du har lært, mærket og sluppet samler sig nu i en stille vished. Du er hele dit liv. Det niende kapitel er ikke en afslutning — det er det sted hvor alt samler sig til noget stille og helt.' }
+  ];
+
+  let html = '';
+
+  // ── HERO ──
+  html += `
+    <div class="section dybde-hero">
+      <div class="eyebrow">De Ni Livsfaser</div>
+      <div class="dybde-fase-label">Ni kapitler · Ét liv</div>
+      <div class="isa isa--sm">Fra det første åndedrag til visdommens stille rum. Ni faser med hvert sit element, sin krop og sin opgave. Find din fase — og forstå de kapitler der kom før dig, og dem der venter.</div>
+      <div class="fig" style="margin-top:var(--sp-4)">
+        <img src="assets/images/ni-livsfaser.png" alt="De ni livsfaser" style="max-width:260px" class="no-bg">
+      </div>
+    </div>`;
+
+  // ── DIN FASE LIGE NU ──
+  html += `
+    <div class="section">
+      <div class="eyebrow">Din fase lige nu</div>
+      <div class="isa" style="margin-bottom:var(--sp-2)">Fase ${d.phase} · ${d.elementLabel}</div>
+      <div class="prose"><p>${d.introText}</p></div>
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── DE TIDLIGE ÅR (1-3) ──
+  html += `
+    <div class="section">
+      <div class="eyebrow">De tidlige år · Fase 1–3</div>
+      <div class="isa isa--sm" style="margin-bottom:var(--sp-3)">De første 21 år er spiringens tid. Vand giver rod, Træ giver retning. Her lægges fundamentet for alt der kommer efter.</div>
+      ${faser.slice(0, 3).map(f => `
+        <div class="expand-card">
+          <div class="expand-header">
+            <span class="expand-header-title">${f.fase}</span>
+            <span class="expand-chevron">›</span>
+          </div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <div class="isa" style="margin-bottom:var(--sp-2)">${f.titel}</div>
+              <div class="prose"><p>${f.tekst}</p></div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── LIVETS MIDTE (4-6) ──
+  html += `
+    <div class="section">
+      <div class="eyebrow">Livets midte · Fase 4–6</div>
+      <div class="isa isa--sm" style="margin-bottom:var(--sp-3)">De midterste år er fyldens tid. Træ blomstrer, Ild brænder, Jord modner. Her skabes, elskes og formes det liv der bliver dit.</div>
+      ${faser.slice(3, 6).map(f => `
+        <div class="expand-card">
+          <div class="expand-header">
+            <span class="expand-header-title">${f.fase}</span>
+            <span class="expand-chevron">›</span>
+          </div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <div class="isa" style="margin-bottom:var(--sp-2)">${f.titel}</div>
+              <div class="prose"><p>${f.tekst}</p></div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── FIGUR ──
+  html += `
+    <div class="section">
+      <div class="fig fig--sm"><img src="spiral_final.png" alt="Elementernes vandring" style="max-width:180px;opacity:0.85"></div>
+    </div>`;
+
+  // ── DEN MODNE REJSE (7-9) ──
+  html += `
+    <div class="section">
+      <div class="eyebrow">Den modne rejse · Fase 7–9</div>
+      <div class="isa isa--sm" style="margin-bottom:var(--sp-3)">De modne år er frigørelsens tid. Metal renser, Vand vender hjem. Her slipper du det overflødige — og finder det essentielle.</div>
+      ${faser.slice(6, 9).map(f => `
+        <div class="expand-card">
+          <div class="expand-header">
+            <span class="expand-header-title">${f.fase}</span>
+            <span class="expand-chevron">›</span>
+          </div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <div class="isa" style="margin-bottom:var(--sp-2)">${f.titel}</div>
+              <div class="prose"><p>${f.tekst}</p></div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── CIRKLEN DER SLUTTER SIG ──
+  html += `
+    <div class="section">
+      <div class="eyebrow">Cirklen der slutter sig</div>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Fra Vand til Vand</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose"><p>Elementerne vandrer gennem livet — og vender hjem til begyndelsen. Du begyndte i Vand, og du vender tilbage til Vand. Men det er ikke det samme vand. Det er dybere, stille, og det bærer alt det du har været igennem. Cirklen er ikke lukket — den er hel.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="expand-card">
+        <div class="expand-header">
+          <span class="expand-header-title">Det alle faser har tilfælles</span>
+          <span class="expand-chevron">›</span>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <div class="prose"><p>Hver fase har sin egen tone, sit eget element, sin egen visdom. Men de har én ting tilfælles: de kalder på dig. Ikke på at du skal præstere — men på at du tør mærke, hvor du er.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── REFLEKSION ──
+  html += `
+    <div class="section">
+      <div class="eyebrow eyebrow--center">Refleksion</div>
+      <div class="refleksion-centered">
+        <div class="isa">Hvilken fase i dit liv var den sværeste — og hvad lærte den dig, som du ikke vidste du lærte?</div>
+      </div>
+    </div>`;
+
+  // ── PULL QUOTE ──
+  html += `
+    <div class="section">
+      <div class="closing-quote">Du er ikke summen af dine faser. Du er det stille punkt midt i cirklen — der hvor alt begynder, og alt vender hjem.</div>
+    </div>`;
+
+  html += `
+    <div class="back-to-top" style="margin-top:var(--sp-6)">
+      <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen ↑</a>
+    </div>`;
+
+  container.innerHTML = html;
+}
+
+
+/* ============================================================
+   BUILD MIN PRAKSIS SCREEN
+   ============================================================ */
+function buildPraksisScreen() {
+  const d = FASE_DATA;
+  const container = document.getElementById('praksis-content');
+  if (!container) return;
+
+  const kropOevelser = [
+    { title: 'Yin Yoga · Sphinx', type: 'Krop · Stillinger', desc: 'Åbner maven og miltmeridianen. En blid position der støtter fordøjelsen og giver jorden lov til at hvile. Hold stillingen i 3–5 minutter, og lad tyngden gøre arbejdet. Mærk efter hvor kroppen holder og hvor den giver slip.' },
+    { title: 'Meridianstrygninger · Milt', type: 'Krop · Meridianarbejde', desc: 'Stryg med flad hånd fra storetåen op langs indersiden af benet til ribbenene. Langsomt, med let tryk. Det stimulerer miltmeridianen og hjælper fordøjelsen — både den fysiske og den mentale. Gentag 9 gange på hver side.' },
+    { title: 'EFT Tapping · Bekymring', type: 'Krop · Bankepunkter', desc: 'Bank let med fingerspidserne på de klassiske EFT-punkter: siden af hånden, øjenbryn, side af øjet, under øjet, under næsen, hagen, kravebenet, under armen. Sig for hvert punkt: "Selvom jeg bekymrer mig, accepterer jeg mig selv." Gentag tre runder.' }
+  ];
+
+  const sindOevelser = [
+    { title: 'Mindfulness · Jordens nærvær', type: 'Sind · Nærvær', desc: 'Sæt dig med begge fødder i gulvet. Mærk kontakten — tyngden af kroppen, stolen der bærer dig. Luk øjnene. Tæl tre vejrtrækninger. Åbn øjnene og se rummet som for første gang. Jord-elementet finder ro i det der allerede er der.' },
+    { title: 'Refleksion · Tre spørgsmål', type: 'Sind · Refleksion', desc: 'Skriv svar på tre spørgsmål: Hvad bærer du lige nu, som ikke er dit at bære? Hvad ville du gøre, hvis ingen havde brug for dig i dag? Hvornår nærede du sidst dig selv med samme omsorg, som du giver andre?' },
+    { title: 'Følelsernes hjul · Jord', type: 'Sind · Følelser', desc: 'Jordens følelsespar er omsorg og bekymring. Når du mærker bekymringen køre i ring, er det jord-elementet der er i ubalance. Spørg dig selv: er denne tanke nærende eller tærende? Hvis den tærer — læg den ned. Den hører ikke til i dette øjeblik.' }
+  ];
+
+  const naeringOevelser = [
+    { title: 'Kost · Det der nærer Jord', type: 'Næring · Mad', desc: 'Jord-elementet næres af det naturligt søde: græskar, søde kartofler, hirse, ris, gulerødder. En varm suppe med rodfrugter er måske det bedste du kan gøre for din milt. Undgå rå, kold mad der kræver ekstra fordøjelsesenergi. Spis langsomt og med opmærksomhed.' },
+    { title: 'Healinglyd · Huuuu', type: 'Næring · Lyd', desc: 'Jord-elementets healinglyd er "Huuuu" — en dyb, blød lyd der vibrerer i mave-regionen. Sid oprejst, læg hænderne på maven. Ind igennem næsen, ud med lyden "Huuuuuu" — langsomt, blødt, som et suk. Mærk vibrationen i maven. Gentag 6 gange.' },
+    { title: 'Urter · Ingefær og kanel', type: 'Næring · Urter', desc: 'Ingefær varmer fordøjelsen og hjælper milten med at transformere fugt. Kanel styrker nyreild og varmer nedefra. En kop varmt vand med frisk ingefær og en smule honning er enkel medicin for en træt jord.' }
+  ];
+
+  let html = '';
+
+  // ── HERO ──
+  html += `
+    <div class="section dybde-hero">
+      <div class="eyebrow">Din Praksis</div>
+      <div class="dybde-fase-label">Hvad kroppen beder om</div>
+      <div class="isa isa--sm">Øvelser, kost, healinglyde og refleksion. Alt er valgt ud fra det element der dominerer dit liv lige nu. Vælg det der kalder — eller lad være.</div>
+      <div class="fig" style="margin-top:var(--sp-4)">
+        <img src="assets/images/aandedraet.png" alt="Din praksis" style="max-width:260px" class="no-bg">
+      </div>
+    </div>`;
+
+  // ── DET KROPPEN PRØVER AT FORTÆLLE DIG ──
+  html += `
+    <div class="section">
+      <div class="eyebrow">Det kroppen prøver at fortælle dig</div>
+      <div class="isa isa--sm">Når ${d.elementLabel}-elementet dominerer, mærker du det måske som en tyngde der kan være behagelig og nærende, men også udmattende. Kroppen beder ikke om mere — den beder om det rigtige.</div>
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── KROP ──
+  html += `
+    <div class="section">
+      <div class="eyebrow">Krop</div>
+      ${kropOevelser.map(o => `
+        <div class="expand-card">
+          <div class="expand-header">
+            <span class="expand-header-title">${o.title}</span>
+            <span class="expand-chevron">›</span>
+          </div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <div class="meta" style="margin-bottom:var(--sp-2)">${o.type}</div>
+              <div class="prose"><p>${o.desc}</p></div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── SIND ──
+  html += `
+    <div class="section">
+      <div class="eyebrow">Sind</div>
+      ${sindOevelser.map(o => `
+        <div class="expand-card">
+          <div class="expand-header">
+            <span class="expand-header-title">${o.title}</span>
+            <span class="expand-chevron">›</span>
+          </div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <div class="meta" style="margin-bottom:var(--sp-2)">${o.type}</div>
+              <div class="prose"><p>${o.desc}</p></div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── FIGUR ──
+  html += `
+    <div class="section">
+      <div class="fig fig--sm"><img src="assets/images/refleksion.png" alt="Refleksion" style="max-width:180px;opacity:0.85"></div>
+    </div>`;
+
+  // ── NÆRING ──
+  html += `
+    <div class="section">
+      <div class="eyebrow">Næring</div>
+      ${naeringOevelser.map(o => `
+        <div class="expand-card">
+          <div class="expand-header">
+            <span class="expand-header-title">${o.title}</span>
+            <span class="expand-chevron">›</span>
+          </div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <div class="meta" style="margin-bottom:var(--sp-2)">${o.type}</div>
+              <div class="prose"><p>${o.desc}</p></div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── REFLEKSION ──
+  html += `
+    <div class="section">
+      <div class="eyebrow eyebrow--center">Refleksion</div>
+      <div class="refleksion-centered">
+        <div class="isa">Hvornår lyttede du sidst til kroppen — ikke for at fikse den, men for at forstå hvad den prøver at fortælle?</div>
+      </div>
+    </div>`;
+
+  // ── PULL QUOTE ──
+  html += `
+    <div class="section">
+      <div class="closing-quote">Kroppen lyver aldrig. Den taler bare et sprog vi har glemt at lytte til.</div>
+    </div>`;
+
+  html += `
+    <div class="back-to-top" style="margin-top:var(--sp-6)">
+      <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen ↑</a>
+    </div>`;
+
+  container.innerHTML = html;
+}
+
+
+/* ============================================================
+   BUILD MIN REJSE SCREEN
+   ============================================================ */
+function buildRejseScreen() {
+  const d = FASE_DATA;
+  const container = document.getElementById('min-rejse-content');
+  if (!container) return;
+
+  const dagbogEmner = [
+    { title: 'Din udvikling', tekst: 'Energi, stemning, balance — alt følger mønstre. Nogle dage mærker du jordens stabilitet og omsorg. Andre dage mærker du bekymringen køre i ring. Mønstrene viser sig over tid: de gentager sig med årstiderne, med den månedlige cyklus, med det organur der tikker i kroppen. At se mønsteret er det første skridt til at forstå det.' },
+    { title: 'Din journal', tekst: 'Et stille rum til dine tanker. Skriv frit, eller brug dagens spørgsmål som afsæt. Ingen regler — bare et sted at lande. Journalen er ikke til nogen andre end dig. Den er det sted hvor tanker kan få form uden at blive bedømt.' },
+    { title: 'Hvad mærker du lige nu?', tekst: 'Fem elementer, fem følelsesfelter. Vand er stilhed og dybde. Træ er vækst og frustration. Ild er glæde og intensitet. Jord er omsorg og bekymring. Metal er klarhed og sorg. Hvad mærker du mest lige nu? Din stemning i dag bliver en del af dit mønster i morgen.' }
+  ];
+
+  const samlingEmner = [
+    { title: 'Dine opdagelser', tekst: 'De øjeblikke hvor noget pludselig gav mening. Måske var det en sætning der ramte dig. Måske var det en forbindelse mellem din krop og dit sind som du ikke havde set før. De øjeblikke er værd at samle — de er kompasset på din rejse.' },
+    { title: 'Det du har gemt', tekst: 'Øvelser, indsigter og sider du vil vende tilbage til. Dit personlige bibliotek af det der virker for dig. Ikke alt virker for alle — men det der virker for dig, er værd at huske.' }
+  ];
+
+  const videnEmner = [
+    { title: 'Alle ni faser', tekst: 'Fra fødsel til visdom. Ni kapitler, fem elementer, én rejse. Hver fase har sin krop, sit sind, sin opgave. Find din — og forstå dem der kom før, og dem der venter forude. Faserne er ikke en stige man klatrer op ad. De er en spiral man bevæger sig igennem — og hvert lag har sin egen dybde.' },
+    { title: 'Om bogen og systemet', tekst: 'De fem elementer stammer fra den kinesiske medicins tradition, men de genfindes i mange kulturer: anishinaabe, keltisk, vedisk, ayurvedisk. Systemet bag De 9 Livsfaser bygger på disse traditioner og oversætter dem til et sprog der giver mening i dag — for den krop du har, det liv du lever, den fase du er i.' }
+  ];
+
+  let html = '';
+
+  // ── HERO ──
+  html += `
+    <div class="section dybde-hero">
+      <div class="eyebrow">Min Rejse</div>
+      <div class="dybde-fase-label">Din vej gennem faserne</div>
+      <div class="isa isa--sm">Se tilbage på dine oplevelser, opdag mønstre i din energi, og følg din udvikling over tid. Her samler dine oplevelser sig til indsigt.</div>
+      <div class="fig" style="margin-top:var(--sp-4)">
+        <img src="blaa_lotus_5.png" alt="Min rejse" style="max-width:260px" class="no-bg">
+      </div>
+    </div>`;
+
+  // ── DET DER ER SVÆRT AT SE ──
+  html += `
+    <div class="section">
+      <div class="eyebrow">Det der er svært at se</div>
+      <div class="isa isa--sm">Det er næsten umuligt at forstå sin egen rejse mens man er midt i den. Du kan ikke se mønsteret, når du selv er en del af det. Men mønsteret er der. Det viser sig i de øjeblikke hvor noget gentager sig — og i de øjeblikke hvor noget pludselig hører op.</div>
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── DIN DAGBOG ──
+  html += `
+    <div class="section">
+      <div class="eyebrow">Din dagbog</div>
+      ${dagbogEmner.map(e => `
+        <div class="expand-card">
+          <div class="expand-header">
+            <span class="expand-header-title">${e.title}</span>
+            <span class="expand-chevron">›</span>
+          </div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <div class="prose"><p>${e.tekst}</p></div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── DIN SAMLING ──
+  html += `
+    <div class="section">
+      <div class="eyebrow">Din samling</div>
+      ${samlingEmner.map(e => `
+        <div class="expand-card">
+          <div class="expand-header">
+            <span class="expand-header-title">${e.title}</span>
+            <span class="expand-chevron">›</span>
+          </div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <div class="prose"><p>${e.tekst}</p></div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── FIGUR ──
+  html += `
+    <div class="section">
+      <div class="fig fig--sm"><img src="krydsfelt-final.png" alt="Din rejse" style="max-width:180px;opacity:0.85"></div>
+    </div>`;
+
+  // ── VIDEN ──
+  html += `
+    <div class="section">
+      <div class="eyebrow">Viden</div>
+      ${videnEmner.map(e => `
+        <div class="expand-card">
+          <div class="expand-header">
+            <span class="expand-header-title">${e.title}</span>
+            <span class="expand-chevron">›</span>
+          </div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <div class="prose"><p>${e.tekst}</p></div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── REFLEKSION ──
+  html += `
+    <div class="section">
+      <div class="eyebrow eyebrow--center">Refleksion</div>
+      <div class="refleksion-centered">
+        <div class="isa">Hvis du kunne se dit livs mønster ovenfra — som et landskab set fra luften — hvad ville overraske dig mest?</div>
+      </div>
+    </div>`;
+
+  // ── PULL QUOTE ──
+  html += `
+    <div class="section">
+      <div class="closing-quote">Du behøver ikke forstå hele din rejse. Bare det næste skridt. Resten viser sig, når du er klar.</div>
+    </div>`;
+
   html += `
     <div class="back-to-top" style="margin-top:var(--sp-6)">
       <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen ↑</a>
@@ -1948,6 +2434,9 @@ document.addEventListener('DOMContentLoaded', () => {
   buildRelDybereScreen();
   buildTidsrejseScreen();
   buildTidsDybereScreen();
+  buildNiFaserScreen();
+  buildPraksisScreen();
+  buildRejseScreen();
   initHeaderScroll();
   initInteractions();
 
