@@ -1609,15 +1609,8 @@ body.onboarding .menu-overlay { display: none; }
    DESKTOP FRAME — menu & overlay constrained to 700px
    ============================================================ */
 @media (min-width: 768px) {
-  .side-menu {
-    left: 0;
-    right: 0;
-    width: 280px;
-    margin-left: calc(50vw - 350px);
-    transform: translateX(-100%);
-  }
   .side-menu.open {
-    transform: translateX(0) !important;
+    transform: translateX(calc(50vw - 350px)) !important;
   }
   .menu-overlay {
     max-width: var(--max-w);
