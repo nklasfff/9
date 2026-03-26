@@ -1402,20 +1402,6 @@ body.onboarding .theme-toggle { display: none; }
     pointer-events: none;
     z-index: 150;
   }
-  .side-menu {
-    left: calc(50% - 350px);
-    transform: translateX(-280px);
-  }
-  .side-menu.open {
-    transform: translateX(0);
-  }
-  .menu-overlay {
-    max-width: var(--max-w);
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-  }
 }
 
 /* ============================================================
@@ -1617,4 +1603,26 @@ body.onboarding .menu-overlay { display: none; }
 }
 .journal-delete-btn:hover {
   color: var(--text-primary);
+}
+
+/* ============================================================
+   DESKTOP FRAME — menu & overlay constrained to 700px
+   ============================================================ */
+@media (min-width: 768px) {
+  .side-menu {
+    left: calc(50vw - 350px);
+    transform: translateX(-280px);
+  }
+  .side-menu.open {
+    transform: translateX(0);
+  }
+  .menu-overlay {
+    max-width: var(--max-w);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+  .menu-overlay.open {
+    transform: translateX(-50%);
+  }
 }
