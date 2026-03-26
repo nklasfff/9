@@ -1404,6 +1404,10 @@ body.onboarding .theme-toggle { display: none; }
   }
   .side-menu {
     left: calc(50% - 350px);
+    transform: translateX(-280px);
+  }
+  .side-menu.open {
+    transform: translateX(0);
   }
   .menu-overlay {
     max-width: var(--max-w);
