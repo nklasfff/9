@@ -129,6 +129,112 @@ function initJournalDate() {
 
 
 /* ============================================================
+   GUIDED JOURNAL
+   ============================================================ */
+const GuidedJournal = {
+  currentStep: 0,
+  answers: [],
+
+  getPrompts() {
+    return FASE_DATA.guidetJournal || [];
+  },
+
+  init() {
+    this.currentStep = 0;
+    this.answers = [];
+    const prompts = this.getPrompts();
+    if (prompts.length === 0) return;
+
+    this.renderStep();
+
+    // Mode toggle
+    document.querySelectorAll('.journal-mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.journal-mode-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const mode = btn.dataset.mode;
+        document.getElementById('journal-guided-section').style.display = mode === 'guided' ? '' : 'none';
+        document.getElementById('journal-free-section').style.display = mode === 'free' ? '' : 'none';
+      });
+    });
+
+    // Next button
+    document.getElementById('guided-next-btn').addEventListener('click', () => this.next());
+
+    // Save button
+    document.getElementById('guided-save-btn').addEventListener('click', () => this.save());
+  },
+
+  renderStep() {
+    const prompts = this.getPrompts();
+    const promptEl = document.getElementById('guided-prompt-text');
+    const inputEl = document.getElementById('guided-input');
+    const progressEl = document.getElementById('guided-progress');
+    const nextBtn = document.getElementById('guided-next-btn');
+
+    if (!promptEl || !inputEl) return;
+
+    promptEl.textContent = prompts[this.currentStep];
+    inputEl.value = this.answers[this.currentStep] || '';
+    inputEl.focus();
+    progressEl.textContent = `${this.currentStep + 1} af ${prompts.length}`;
+    nextBtn.textContent = this.currentStep === prompts.length - 1 ? 'Se opsummering' : 'Næste';
+  },
+
+  next() {
+    const inputEl = document.getElementById('guided-input');
+    const text = inputEl ? inputEl.value.trim() : '';
+    if (!text) return;
+
+    this.answers[this.currentStep] = text;
+    const prompts = this.getPrompts();
+
+    if (this.currentStep < prompts.length - 1) {
+      this.currentStep++;
+      this.renderStep();
+    } else {
+      this.showSummary();
+    }
+  },
+
+  showSummary() {
+    const prompts = this.getPrompts();
+    document.getElementById('guided-step-0').style.display = 'none';
+    const completeEl = document.getElementById('guided-complete');
+    const summaryEl = document.getElementById('guided-summary');
+    completeEl.style.display = '';
+
+    let summaryHtml = '';
+    prompts.forEach((prompt, i) => {
+      summaryHtml += `
+        <div class="guided-summary-item">
+          <div class="guided-summary-prompt">${prompt}</div>
+          <div class="guided-summary-answer">${this.answers[i].replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+        </div>`;
+    });
+    summaryEl.innerHTML = summaryHtml;
+  },
+
+  save() {
+    const prompts = this.getPrompts();
+    let fullText = '';
+    prompts.forEach((prompt, i) => {
+      fullText += `${prompt}\n${this.answers[i]}\n\n`;
+    });
+    Journal.saveEntry(fullText.trim());
+    renderJournalEntries();
+
+    // Reset
+    this.currentStep = 0;
+    this.answers = [];
+    document.getElementById('guided-step-0').style.display = '';
+    document.getElementById('guided-complete').style.display = 'none';
+    this.renderStep();
+  }
+};
+
+
+/* ============================================================
    PROFIL — simple profile view
    ============================================================ */
 function buildProfilScreen() {
@@ -528,6 +634,23 @@ const FASE_DATA = {
     'Hvilke mønstre gentager du fra din mor?',
     'Hvad ville du gøre anderledes, hvis du kun havde ansvar for dig selv?',
     'Hvornår nærede du sidst dig selv med samme omsorg, som du giver andre?'
+  ],
+
+  // Interactive reflection — poetic choices that tailor the exercises shown
+  interaktivRefleksion: {
+    spoergsmaal: 'Hvor mærker du din jord lige nu?',
+    valg: [
+      { id: 'stabil', tekst: 'Den bærer stille og stabilt', anbefaling: 'Meridian', besked: 'Din jord er stærk. Næring handler nu om at holde forbindelsen levende — mærk den strøm der allerede bærer dig.' },
+      { id: 'traet', tekst: 'Den er tør og træt', anbefaling: 'Krop', besked: 'Din jord kalder på næring. Begynd ved kroppen — den husker hvad sindet har glemt. Blød berøring og varme kan genopbygge det der er slidt.' },
+      { id: 'usynlig', tekst: 'Jeg kan ikke helt mærke den', anbefaling: 'Åndedræt', besked: 'Når jorden er svær at mærke, er åndedrættet broen tilbage. Det kræver ingenting af dig — bare at du følger det ned, pust for pust.' }
+    ]
+  },
+
+  // Guided journal prompts for this phase
+  guidetJournal: [
+    'Hvad bærer du lige nu, som du ikke har bedt om?',
+    'Hvordan mærker du det i kroppen?',
+    'Hvad ville du lægge fra dig, hvis du turde?'
   ]
 };
 
@@ -567,7 +690,7 @@ const Router = {
     // Init screens
     if (screenId === 'onboarding') initOnboarding();
     if (screenId === 'onboarding-result') initOnboardingResult();
-    if (screenId === 'journal') { initJournalDate(); renderJournalEntries(); }
+    if (screenId === 'journal') { initJournalDate(); renderJournalEntries(); GuidedJournal.init(); }
     if (screenId === 'profil') buildProfilScreen();
     if (screenId === 'ni-faser') buildNiFaserScreen();
     if (screenId === 'praksis') buildPraksisScreen();
@@ -649,6 +772,44 @@ function initInteractions() {
       const isOpen = card.classList.contains('open');
       card.classList.toggle('open');
       body.style.maxHeight = isOpen ? '0px' : body.scrollHeight + 'px';
+      return;
+    }
+
+    // Reflection choices
+    const choiceBtn = e.target.closest('.reflection-choice');
+    if (choiceBtn) {
+      const choiceId = choiceBtn.dataset.choice;
+      const recType = choiceBtn.dataset.type;
+      const ir = FASE_DATA.interaktivRefleksion;
+      const chosen = ir.valg.find(v => v.id === choiceId);
+      if (!chosen) return;
+
+      // Save choice with timestamp
+      localStorage.setItem('livsfaser_reflection_choice', choiceId);
+      const history = JSON.parse(localStorage.getItem('livsfaser_reflection_history') || '[]');
+      history.push({ id: choiceId, tekst: chosen.tekst, date: new Date().toISOString() });
+      localStorage.setItem('livsfaser_reflection_history', JSON.stringify(history));
+
+      // Update UI — mark selected
+      document.querySelectorAll('.reflection-choice').forEach(b => b.classList.remove('chosen'));
+      choiceBtn.classList.add('chosen');
+
+      // Show response
+      const responseEl = document.getElementById('reflection-response');
+      if (responseEl) {
+        responseEl.innerHTML = `<div class="reflection-response-text">${chosen.besked}</div>`;
+        responseEl.classList.add('visible');
+      }
+
+      // Highlight the recommended exercise
+      document.querySelectorAll('.expand-card').forEach(card => card.classList.remove('recommended'));
+      document.querySelectorAll('.expand-card .meta').forEach(meta => {
+        if (meta.textContent.trim() === recType) {
+          const card = meta.closest('.expand-card');
+          if (card) card.classList.add('recommended');
+        }
+      });
+
       return;
     }
 
@@ -813,6 +974,33 @@ function buildDybdeScreen() {
             <div class="prose">${textToHtml(d.ubalanceTegn.aarsag)}</div>
           </div>
         </div>
+      </div>
+    </div>`;
+
+  // ── DIVIDER ──
+  html += '<div class="section"><div class="divider"></div></div>';
+
+  // ── INTERAKTIV REFLEKSION ──
+  const ir = d.interaktivRefleksion;
+  const savedChoice = localStorage.getItem('livsfaser_reflection_choice');
+  html += `
+    <div class="section" id="dybde-refleksion-section">
+      <div class="eyebrow eyebrow--center">Mærk efter</div>
+      <div class="refleksion-centered">
+        <div class="isa">${ir.spoergsmaal}</div>
+      </div>
+      <div class="reflection-choices" id="reflection-choices">
+        ${ir.valg.map(v => `
+          <button class="reflection-choice${savedChoice === v.id ? ' chosen' : ''}" data-choice="${v.id}" data-type="${v.anbefaling}">
+            ${v.tekst}
+          </button>
+        `).join('')}
+      </div>
+      <div class="reflection-response${savedChoice ? ' visible' : ''}" id="reflection-response">
+        ${savedChoice ? (() => {
+          const chosen = ir.valg.find(v => v.id === savedChoice);
+          return chosen ? `<div class="reflection-response-text">${chosen.besked}</div>` : '';
+        })() : ''}
       </div>
     </div>`;
 
@@ -1974,6 +2162,73 @@ function buildMinRejseScreen() {
       <div class="eyebrow">Det der er svært at se</div>
       <div class="isa isa--sm">Det er næsten umuligt at forstå sin egen rejse mens man er midt i den. Du kan ikke se mønsteret, når du selv er en del af det. Men mønsteret er der. Det viser sig i de øjeblikke hvor noget gentager sig — og i de øjeblikke hvor noget pludselig hører op.</div>
     </div>`;
+
+  // ── DIN UDVIKLING OVER TID (poetisk tidslinje) ──
+  const reflHistory = JSON.parse(localStorage.getItem('livsfaser_reflection_history') || '[]');
+  const journalEntries = Journal.getEntries();
+
+  if (reflHistory.length > 0 || journalEntries.length > 0) {
+    html += '<div class="section"><div class="divider"></div></div>';
+    html += `
+      <div class="section">
+        <div class="eyebrow">Din udvikling</div>
+        <div class="isa isa--sm" style="margin-bottom:var(--sp-3)">Dine egne ord, spejlet tilbage over tid.</div>
+        <div class="timeline">`;
+
+    // Combine and sort all entries by date (newest first, max 8)
+    const timelineItems = [];
+
+    reflHistory.forEach(r => {
+      timelineItems.push({
+        type: 'reflection',
+        date: r.date,
+        tekst: r.tekst
+      });
+    });
+
+    journalEntries.slice(0, 5).forEach(j => {
+      const preview = j.text.length > 120 ? j.text.substring(0, 120) + '…' : j.text;
+      timelineItems.push({
+        type: 'journal',
+        date: j.date,
+        tekst: preview
+      });
+    });
+
+    timelineItems.sort((a, b) => new Date(b.date) - new Date(a.date));
+    const shown = timelineItems.slice(0, 8);
+
+    shown.forEach(item => {
+      const dateStr = formatJournalDate(item.date);
+      const icon = item.type === 'reflection' ? '◯' : '✦';
+      const label = item.type === 'reflection' ? 'Du mærkede' : 'Du skrev';
+      html += `
+          <div class="timeline-item">
+            <div class="timeline-marker">${icon}</div>
+            <div class="timeline-content">
+              <div class="timeline-date">${dateStr}</div>
+              <div class="timeline-label">${label}</div>
+              <div class="timeline-text">"${item.tekst.replace(/</g, '&lt;').replace(/>/g, '&gt;')}"</div>
+            </div>
+          </div>`;
+    });
+
+    // Show development insight if there are multiple reflections
+    if (reflHistory.length >= 2) {
+      const first = reflHistory[0];
+      const last = reflHistory[reflHistory.length - 1];
+      if (first.id !== last.id) {
+        html += `
+          <div class="timeline-insight">
+            <div class="timeline-insight-text">Første gang mærkede du: "${first.tekst}". Sidst valgte du: "${last.tekst}". Noget har bevæget sig.</div>
+          </div>`;
+      }
+    }
+
+    html += `
+        </div>
+      </div>`;
+  }
 
   // ── DIVIDER ──
   html += '<div class="section"><div class="divider"></div></div>';

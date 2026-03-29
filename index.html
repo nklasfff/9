@@ -390,11 +390,38 @@
       <div class="section">
         <div class="eyebrow eyebrow--center">Min Journal</div>
         <div class="isa isa--sm isa--muted" style="text-align:center;margin-bottom:var(--sp-4)">
-          Et stille rum til dine tanker. Skriv frit — ingen dømmer her.
+          Et stille rum til dine tanker.
         </div>
       </div>
 
+      <!-- Journal mode toggle -->
       <div class="section">
+        <div class="journal-mode-toggle">
+          <button class="journal-mode-btn active" data-mode="guided" id="mode-guided">Guidet refleksion</button>
+          <button class="journal-mode-btn" data-mode="free" id="mode-free">Skriv frit</button>
+        </div>
+      </div>
+
+      <!-- Guided journal -->
+      <div class="section" id="journal-guided-section">
+        <div class="guided-journal" id="guided-journal">
+          <div class="guided-step active" id="guided-step-0">
+            <div class="guided-prompt" id="guided-prompt-text"></div>
+            <textarea class="journal-input guided-input" id="guided-input" placeholder="Skriv hvad der kommer til dig..."></textarea>
+            <div class="guided-nav">
+              <span class="guided-progress" id="guided-progress"></span>
+              <button class="guided-next-btn" id="guided-next-btn">Næste</button>
+            </div>
+          </div>
+          <div class="guided-complete" id="guided-complete" style="display:none">
+            <div class="guided-summary" id="guided-summary"></div>
+            <button class="journal-save-btn" id="guided-save-btn">Gem i journal</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Free journal (hidden by default) -->
+      <div class="section" id="journal-free-section" style="display:none">
         <div class="journal-compose">
           <textarea class="journal-input" id="journal-input" placeholder="Hvad fylder i dig lige nu?"></textarea>
           <div class="journal-compose-footer">

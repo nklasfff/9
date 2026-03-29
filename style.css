@@ -1618,6 +1618,241 @@ body.onboarding .menu-overlay { display: none; }
 }
 
 /* ============================================================
+   INTERACTIVE REFLECTION
+   ============================================================ */
+.reflection-choices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+}
+.reflection-choice {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: var(--sp-2) var(--sp-3);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 300;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+  text-align: left;
+  line-height: 1.5;
+}
+.reflection-choice:hover {
+  border-color: var(--accent-border);
+  color: var(--text-primary);
+}
+.reflection-choice.chosen {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  color: var(--text-primary);
+}
+.reflection-response {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.6s var(--ease), opacity 0.6s var(--ease), margin 0.6s var(--ease);
+  margin-top: 0;
+}
+.reflection-response.visible {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: var(--sp-3);
+}
+.reflection-response-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  padding: var(--sp-3);
+  background: var(--accent-04);
+  border-radius: 12px;
+  border-left: 2px solid var(--accent-border);
+}
+
+/* ============================================================
+   GUIDED JOURNAL
+   ============================================================ */
+.journal-mode-toggle {
+  display: flex;
+  gap: var(--sp-1);
+  background: var(--accent-04);
+  border-radius: 10px;
+  padding: 3px;
+}
+.journal-mode-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: var(--sp-1) var(--sp-2);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+}
+.journal-mode-btn.active {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+.guided-journal {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  padding: var(--sp-3);
+}
+.guided-prompt {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin-bottom: var(--sp-3);
+}
+.guided-input {
+  min-height: 100px;
+}
+.guided-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--sp-2);
+}
+.guided-progress {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-weight: 300;
+}
+.guided-next-btn {
+  background: var(--btn-gradient);
+  color: var(--btn-text);
+  border: none;
+  border-radius: 8px;
+  padding: var(--sp-1) var(--sp-3);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: opacity var(--dur) var(--ease);
+}
+.guided-next-btn:hover {
+  opacity: 0.85;
+}
+.guided-summary-item {
+  margin-bottom: var(--sp-3);
+}
+.guided-summary-item:last-child {
+  margin-bottom: 0;
+}
+.guided-summary-prompt {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: var(--sp-1);
+}
+.guided-summary-answer {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 300;
+  color: var(--text-primary);
+  line-height: 1.6;
+  padding-left: var(--sp-2);
+  border-left: 2px solid var(--accent-border);
+}
+
+/* ============================================================
+   TIMELINE
+   ============================================================ */
+.timeline {
+  position: relative;
+  padding-left: var(--sp-3);
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--border-light);
+}
+.timeline-item {
+  display: flex;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+  position: relative;
+}
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+.timeline-marker {
+  flex-shrink: 0;
+  width: 16px;
+  margin-left: -12px;
+  text-align: center;
+  font-size: 0.6rem;
+  color: var(--accent);
+  line-height: 1.8;
+}
+.timeline-content {
+  flex: 1;
+  min-width: 0;
+}
+.timeline-date {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: var(--text-dim);
+  margin-bottom: 2px;
+}
+.timeline-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-bottom: var(--sp-1);
+}
+.timeline-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+.timeline-insight {
+  margin-top: var(--sp-3);
+  padding: var(--sp-3);
+  background: var(--accent-04);
+  border-radius: 12px;
+  border-left: 2px solid var(--accent-border);
+}
+.timeline-insight-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+/* Recommended exercise highlight */
+.expand-card.recommended {
+  border-color: var(--accent-border);
+  background: var(--accent-04);
+}
+.expand-card.recommended .expand-header-title::after {
+  content: ' ·';
+  color: var(--accent);
+}
+
+/* ============================================================
    DESKTOP FRAME — menu & overlay constrained to 700px
    ============================================================ */
 @media (min-width: 768px) {
